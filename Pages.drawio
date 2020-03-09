@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2020-03-09T10:56:23.825Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36" etag="Idet8Bn9DgSyNjm4HaeH" version="12.8.1" type="github">
+<mxfile host="www.draw.io" modified="2020-03-09T11:54:36.914Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36" etag="AEtZbqyM2yFfcHy_fQZp" version="12.8.1" type="github">
   <diagram id="36IPTU1qtOfJqtYDmd5u" name="Page-1">
     <mxGraphModel dx="1043" dy="625" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -7,7 +7,7 @@
         <mxCell id="oMxRQxHUPThYQjORnm95-1" value="/&lt;br&gt;Landing Page" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="394" y="20" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="oMxRQxHUPThYQjORnm95-2" value="/login&lt;br&gt;Login" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+        <mxCell id="oMxRQxHUPThYQjORnm95-2" value="/login&lt;br&gt;Login/&lt;br&gt;Register" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="160" y="180" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="oMxRQxHUPThYQjORnm95-3" value="/purchase&lt;br&gt;Purchase/&lt;br&gt;Shopping cart" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
