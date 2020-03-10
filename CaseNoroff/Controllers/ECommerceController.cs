@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CaseNoroff.Data;
+using CaseNoroff.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaseNoroff.Controllers
 {
     public class ECommerceController : Controller
     {
-        public string Index()
+        private readonly ApplicationDbContext _db;
+        public ECommerceController(ApplicationDbContext db)
         {
-            return "Hello";
+            _db = db;
+        }
+
+        public Object Index()
+        {
+            return _db.Customers.FirstOrDefault();
         }
     }
 }
