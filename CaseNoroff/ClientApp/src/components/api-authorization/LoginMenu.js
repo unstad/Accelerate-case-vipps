@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { NavItem, NavLink } from 'reactstrap';
+import { NavItem, NavLink, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
@@ -10,8 +10,31 @@ export class LoginMenu extends Component {
 
         this.state = {
             isAuthenticated: false,
-            userName: null
+            userName: null,
+            showDropdown: false
         };
+        this.toggle = this.toggle.bind(this);
+        this.showDropdown = this.showDropdown.bind(this);
+        this.removeDropdown = this.removeDropdown.bind(this);
+    }
+
+    toggle() {
+        this.setState(prevState => ({
+            showDropdown: !prevState.showDropdown
+        }));
+    }
+
+    showDropdown(event) {
+        event.preventDefault();
+        this.setState({
+            showDropdown: true
+        });
+    }
+
+    removeDropdown() {
+        this.setState({
+            showDropdown: false
+        })
     }
 
     componentDidMount() {
@@ -57,13 +80,15 @@ export class LoginMenu extends Component {
     }
 
     anonymousView(registerPath, loginPath) {
-        return (<Fragment>
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to={registerPath}>Register</NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to={loginPath}>Login</NavLink>
-            </NavItem>
-        </Fragment>);
+        return (
+            <Dropdown className="droooooop" nav onMouseOver={this.showDropdown} onMouseLeave={this.removeDropdown} isOpen={this.state.showDropdown} toggle={this.toggle}>
+                <DropdownToggle nav caret> User </DropdownToggle>
+                {this.state.showDropdown ? (
+                    <DropdownMenu >
+                        <DropdownItem tag={Link} className="text-dark" to={registerPath}>Register</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to={loginPath}>Login</DropdownItem>
+                    </DropdownMenu>) : (null)}
+            </Dropdown>
+        );
     }
 }
