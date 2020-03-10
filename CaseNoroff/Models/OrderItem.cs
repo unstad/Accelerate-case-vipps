@@ -14,11 +14,5 @@ namespace CaseNoroff.Models
         public decimal TotalPrice { get; set; }
         public virtual Product Product { get; set; }
         public virtual Order Order { get; set; }
-
-        //public virtual Member Member { get; set; }
-        //public virtual Comment Comment { get; set; }
-
-        //public int Something { get; set; }
-        //public string SomethingElse { get; set; }
     }
 }
