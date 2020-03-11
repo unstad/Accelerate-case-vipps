@@ -22,14 +22,17 @@ namespace CaseNoroff.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.Property(e => e.TotalPrice)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasComputedColumnSql("(CONVERT([decimal](18,2),[dbo].[getTotalPrice]([OrderItemId])))");
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder
-        //    .Entity<OrderItem>()
-        //    .Property(x => x.TotalPrice)
-        //    .HasComputedColumnSql("SELECT OI.ProductQuantity * P.Price FROM[dbo].[OrderItems] AS OI INNER JOIN[dbo].[Products] AS P ON P.ProductId = OI.ProductId WHERE P.ProductId = OI.ProductId");   
-        //}
-
+            });
+        }
+        
     }
 }

@@ -166,7 +166,9 @@ namespace CaseNoroff.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(18, 2)")
+                        .HasComputedColumnSql("(CONVERT([decimal](18,2),[dbo].[getTotalPrice]([OrderItemId])))");
 
                     b.HasKey("OrderItemId");
 
