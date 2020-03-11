@@ -16,9 +16,24 @@ namespace CaseNoroff.Controllers
             _db = db;
         }
 
-        public Object Index()
+        public List<Customer> Customer()
         {
-            return _db.Customers.FirstOrDefault();
+            return _db.Customers.ToList();
+        }
+
+        public List<Order> Order()
+        {
+            return _db.Orders.ToList();
+        }
+
+        public List<Product> Product()
+        {
+            return _db.Products.ToList();
+        }
+
+        public List<OrderItem> OrderItem()
+        {
+            return _db.OrderItems.ToList();
         }
     }
 }
