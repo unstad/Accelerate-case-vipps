@@ -34,6 +34,8 @@
     <Compile Remove="Data\Migrations\20200310155657_AddedComputedValue.Designer.cs" />
     <Compile Remove="Data\Migrations\20200311083858_test.cs" />
     <Compile Remove="Data\Migrations\20200311083858_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200312122643_RemovedOrderItemsCollectionFromProduct.cs" />
+    <Compile Remove="Data\Migrations\20200312122643_RemovedOrderItemsCollectionFromProduct.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

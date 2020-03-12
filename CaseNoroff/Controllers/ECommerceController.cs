@@ -17,9 +17,9 @@ namespace CaseNoroff.Controllers
             _db = db;
         }
 
-        public List<Customer> Customer()
+        public Customer Customer(int id)
         {
-            return _db.Customers.ToList();
+            return _db.Customers.Find(id);
         }
 
         [HttpPost]
@@ -34,12 +34,30 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
-        public List<Customer> CustomerAndOrder()
+        public List<Customer> Customers()
         {
-            return _db.Customers.Include(o => o.Orders).ToList();
+            return _db.Customers.ToList();
         }
 
-        public List<Order> Order()
+        public Order Order(int id)
+        {
+            return _db.Orders.Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
+        }
+
+        [HttpPost]
+        public Order Order([FromBody] Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                order.OrderDate = DateTime.Now;
+                _db.Orders.Add(order);
+                _db.SaveChanges();
+            }
+
+            return order;
+        }
+
+        public List<Order> Orders()
         {
             return _db.Orders.ToList();
         }
@@ -48,14 +66,29 @@ namespace CaseNoroff.Controllers
         {
             return _db.Products.ToList();
         }
-        //[HttpPost]
-        //Order + OrderItems
 
+        //public List<OrderItem> OrderItem()
+        //{
+        //    return _db.OrderItems.ToList();
+        //}
 
-
-        public List<OrderItem> OrderItem()
+        public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
         {
-            return _db.OrderItems.ToList();
+            return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
+                .ThenInclude(p => p.Product).ToList();
+        }
+
+        [HttpPost]
+        public List<Customer> CustomerAndOrderAndOrderItemAndProduct(int id)
+        {
+            //return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
+            //    .ThenInclude(p => p.Product).ToList();
+        }
+
+        public List<Order> OrderAndOrderItemAndProduct()
+        {
+            return _db.Orders.Include(oi => oi.OrderItems)
+                .ThenInclude(p => p.Product).ToList();
         }
     }
 }
