@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CaseNoroff.Controllers
 {
@@ -21,6 +22,23 @@ namespace CaseNoroff.Controllers
             return _db.Customers.ToList();
         }
 
+        [HttpPost]
+        public Customer Customer([FromBody] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Customers.Add(customer);
+                _db.SaveChanges();
+            }
+
+            return customer;
+        }
+
+        public List<Customer> CustomerAndOrder()
+        {
+            return _db.Customers.Include(o => o.Orders).ToList();
+        }
+
         public List<Order> Order()
         {
             return _db.Orders.ToList();
@@ -30,6 +48,10 @@ namespace CaseNoroff.Controllers
         {
             return _db.Products.ToList();
         }
+        //[HttpPost]
+        //Order + OrderItems
+
+
 
         public List<OrderItem> OrderItem()
         {
