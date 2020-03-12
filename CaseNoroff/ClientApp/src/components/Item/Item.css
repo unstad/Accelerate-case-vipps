@@ -1,0 +1,49 @@
+﻿.itemContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid grey;
+    border-radius: 7px;
+    width: auto;
+}
+
+
+.itemText {
+    text-align: left;
+    border: 0px;
+    border-radius: 7px;
+}
+
+.itemImage {
+    width: 300px;
+    height: 320px
+}
+
+.addBtn {
+    background-color: #2F5D47;
+    color: white;
+}
+
+.modal{
+    border: 1px black solid;
+    border-radius: 7px;
+    width: 50%;
+    background-color: white;
+    margin-left: 25%;
+}
+.modalContent{
+    text-align: center;
+}
+.modalText{
+    text-align: left;
+    margin-left: 20px;
+}
+#modalExitBtn{
+    border: none;
+}
+
+.modalButtons{
+    display: flex;
+    flex-direction: row;
+    float: right;
+    margin: 10px;
+}
