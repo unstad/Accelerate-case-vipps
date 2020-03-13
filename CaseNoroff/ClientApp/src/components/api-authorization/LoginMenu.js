@@ -3,6 +3,8 @@ import { NavItem, NavLink, Dropdown, DropdownItem, DropdownMenu, DropdownToggle 
 import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
+import iconUser from '../../Assets/iconUser.png';
+
 
 export class LoginMenu extends Component {
     constructor(props) {
@@ -25,16 +27,19 @@ export class LoginMenu extends Component {
     }
 
     showDropdown(event) {
-        event.preventDefault();
-        this.setState({
-            showDropdown: true
-        });
+            event.preventDefault();
+            this.setState({
+                showDropdown: true
+            })
     }
 
     removeDropdown() {
-        this.setState({
-            showDropdown: false
-        })
+    //    setTimeout(() => {
+            this.setState({
+                showDropdown: false
+            })//},
+    //        1000)
+
     }
 
     componentDidMount() {
@@ -81,13 +86,15 @@ export class LoginMenu extends Component {
 
     anonymousView(registerPath, loginPath) {
         return (
-            <Dropdown className="droooooop" nav onMouseOver={this.showDropdown} onMouseLeave={this.removeDropdown} isOpen={this.state.showDropdown} toggle={this.toggle}>
-                <DropdownToggle nav caret> User </DropdownToggle>
-                {this.state.showDropdown ? (
-                    <DropdownMenu >
+            <Dropdown  className="droooooop" onMouseLeave={this.removeDropdown} isOpen={this.state.showDropdown} toggle={this.toggle}>
+                <DropdownToggle  onMouseEnter={this.showDropdown} className="toggler">
+                    <img className="navImg" src={iconUser} alt="User" />
+                </DropdownToggle>
+                {this.state.showDropdown && (
+                    <DropdownMenu className="drooopdownMenu">
                         <DropdownItem tag={Link} className="text-dark" to={registerPath}>Register</DropdownItem>
                         <DropdownItem tag={Link} className="text-dark" to={loginPath}>Login</DropdownItem>
-                    </DropdownMenu>) : (null)}
+                    </DropdownMenu>) }
             </Dropdown>
         );
     }
