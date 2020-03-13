@@ -21,6 +21,7 @@ namespace CaseNoroff.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Size> Sizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
