@@ -79,8 +79,8 @@ export class Shop extends React.Component {
     render() {
         const items = this.state.filteredItemList.map(item => {
             return (
-                <li className='items'>
-                    <Item item={item} key={item.id} />
+                <li className='items' key={item.id}>
+                    <Item item={item}/>
                 </li>
             )
         });
