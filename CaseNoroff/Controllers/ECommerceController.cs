@@ -78,12 +78,20 @@ namespace CaseNoroff.Controllers
                 .ThenInclude(p => p.Product).ToList();
         }
 
-        [HttpPost]
-        public List<Customer> CustomerAndOrderAndOrderItemAndProduct(int id)
-        {
-            //return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
-            //    .ThenInclude(p => p.Product).ToList();
-        }
+        //[HttpPost]
+        //public Order CustomerAndOrderAndOrderItemAndProduct(Customer customer)
+        //{
+        //    //return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
+        //    //    .ThenInclude(p => p.Product).ToList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Customers.Add(customer);
+        //        _db.Orders.Add(customer.Orders.FirstOrDefault());
+        //        _db.SaveChanges();
+        //    }
+
+        //    return customer;
+        //}
 
         public List<Order> OrderAndOrderItemAndProduct()
         {
