@@ -56,7 +56,7 @@ export default class Item extends React.Component {
     render() {
         const sizes = this.state.sizes.map(size => {
             return (
-                <DropdownItem>{size}</DropdownItem>
+                <DropdownItem key={size}>{size}</DropdownItem>
                 )
         })
         return (
