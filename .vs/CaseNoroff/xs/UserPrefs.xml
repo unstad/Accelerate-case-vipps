@@ -1,0 +1,48 @@
+﻿<Properties StartupConfiguration="{A673CDD8-9925-44A5-A382-AD496D14FE8F}|Default">
+  <MonoDevelop.Ide.ItemProperties.CaseNoroff PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CaseNoroff/ClientApp/src/components/Shop/Shop.js">
+    <Files>
+      <File FileName="CaseNoroff/Program.cs" Line="1" Column="1" />
+      <File FileName="CaseNoroff/Pages/Shared/_Layout.cshtml" Line="58" Column="1" />
+      <File FileName="CaseNoroff/Pages/Shared/_LoginPartial.cshtml" Line="37" Column="1" />
+      <File FileName="CaseNoroff/Models/ApplicationUser.cs" Line="15" Column="1" />
+      <File FileName="CaseNoroff/WeatherForecast.cs" Line="1" Column="1" />
+      <File FileName="CaseNoroff/ClientApp/src/components/Item/Item.js" Line="1" Column="1" />
+      <File FileName="CaseNoroff/ClientApp/src/components/Item/Item.css" Line="1" Column="1" />
+      <File FileName="CaseNoroff/ClientApp/src/components/Shop/Shop.js" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CaseNoroff" expanded="True">
+            <Node name="CaseNoroff" expanded="True">
+              <Node name="ClientApp" expanded="True">
+                <Node name="src" expanded="True">
+                  <Node name="components" expanded="True">
+                    <Node name="Item" expanded="True" />
+                    <Node name="Shop" expanded="True">
+                      <Node name="Shop.js" selected="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Pages" expanded="True">
+                <Node name="Shared" expanded="True" />
+              </Node>
+              <Node name="wwwroot" expanded="True">
+                <Node name="js" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
