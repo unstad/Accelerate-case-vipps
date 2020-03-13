@@ -64,7 +64,7 @@ namespace CaseNoroff.Controllers
 
         public List<Product> Product()
         {
-            return _db.Products.ToList();
+            return _db.Products.Include(s => s.Size).ToList();
         }
 
         //public List<OrderItem> OrderItem()
