@@ -16,3 +16,28 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+
+.navImg {
+    height: 30px;
+}
+
+.toggler {
+    background-color: white;
+    border: none;
+}
+
+.toggler:hover {
+    background-color: white;
+    border: none;
+}
+
+.drooopdownMenu:hover {
+}
+
+.droooooop .drooopdownMenu {
+    -webkit-transition: opacity 1s ease;
+}
+
+.droooooop:hover .drooopdownMenu {
+}
