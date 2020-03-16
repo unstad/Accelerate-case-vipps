@@ -5,3 +5,22 @@
 #cartTitle{
     text-align: center;
 }
+
+
+#cartContent{
+    display: flex;
+    flex-direction: row;
+}
+
+#checkout{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap-reverse;
+    margin-top: 50px;
+}
+
+#confirmBtn {
+    background-color: #2F5D47;
+    color: white;
+
+}

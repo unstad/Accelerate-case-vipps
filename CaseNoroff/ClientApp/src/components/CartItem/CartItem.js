@@ -32,7 +32,7 @@ export class CartItem extends React.Component {
                 <img className='cartItemImage' top width="100%" src={this.state.image} alt={this.state.name} />
                 <div className='cartItemText'>
                     <div className='cartItemName'>
-                        <h3>{this.state.name}</h3>
+                        <h6>{this.state.name}</h6>
                     </div>
                     <div className = 'cartItemPrice'>
                         <h5>price</h5>
