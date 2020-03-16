@@ -1,13 +1,6 @@
 ﻿import React from 'react';
-<<<<<<< HEAD
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
-} from 'reactstrap';
-=======
 import { Button } from 'reactstrap';
 import styles from './CartItem.css';
->>>>>>> master
 
 export class CartItem extends React.Component {
     constructor(props) {
@@ -23,13 +16,8 @@ export class CartItem extends React.Component {
 
     render() {
         return (
-<<<<<<< HEAD
-            <div className='itemContainer'>
-                <Card>
-=======
             /*<div className='itemContainer'>
                 <Card className = 'card'>
->>>>>>> master
                     <CardImg className='itemImage' top width="100%" src={this.state.image} alt={this.state.name} />
                     <CardBody>
                         <CardTitle>{this.state.name}</CardTitle>
@@ -38,8 +26,6 @@ export class CartItem extends React.Component {
                         <Button  onClick={this.props.buttonClick}>Remove from cart</Button>
                     </CardBody>
                 </Card>
-<<<<<<< HEAD
-=======
             </div>*/
 
             <div className='cartContainer'>
@@ -48,13 +34,12 @@ export class CartItem extends React.Component {
                     <div className='cartItemName'>
                         <h6>{this.state.name}</h6>
                     </div>
-                    <div className = 'cartItemPrice'>
+                    <div className='cartItemPrice'>
                         <h5>price</h5>
                         <p>NOK {this.state.price},-</p>
                         <Button className='delBtn' onClick={this.props.buttonClick}>Remove from cart</Button>
                     </div>
                 </div>
->>>>>>> master
             </div>
         )
     }

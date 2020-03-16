@@ -1,10 +1,7 @@
 ﻿import React from 'react';
 import { CartItem } from '../CartItem/CartItem.js'
-<<<<<<< HEAD
-=======
 import styles from './Cart.css'
 import { Button } from 'reactstrap';
->>>>>>> master
 
 export class Cart extends React.Component {
     constructor(props) {
@@ -16,30 +13,7 @@ export class Cart extends React.Component {
 
     removeItem = (item, event) => {
         console.log("Remove clicked")
-<<<<<<< HEAD
-        let list = [...this.state.itemList];
-        let index = list.indexOf(event.target.value);
-        if (index !== -1) {
-            list.splice(index, 1);
-            this.setState({ itemList: list });
-        }
-    }
 
-    render() {
-        const list = this.state.itemList.map(item => {
-            return (
-                <li className='items' key={item.productId}>
-                    <CartItem item={item} buttonClick={this.removeItem.bind(null, item)}/>
-                </li>
-                )
-        })
-        return (
-            <ul>
-                {list}
-            </ul>
-            )
-=======
-        
         let list = [...this.state.itemList];
         let index = list.indexOf(event.target.value);
         console.log(item);
@@ -81,11 +55,11 @@ export class Cart extends React.Component {
             return (
                 <div>
                     <h2 id='cartTitle'>Cart</h2>
-                    <div id = 'cartContent'>
+                    <div id='cartContent'>
                         <ul id='cartContainer'>
                             {list}
                         </ul>
-                        <div id = "checkout">
+                        <div id="checkout">
                             <h3>Checkout</h3>
                             <p id='subTotal' ><strong>Sub-total:</strong> NOK {this.sumPrice()}.-</p>
                             <Button id='confirmBtn'>Confirm</Button>
@@ -94,7 +68,6 @@ export class Cart extends React.Component {
                 </div>
             )
         }
-       
->>>>>>> master
+
     }
 }
