@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
@@ -68,13 +69,13 @@ namespace CaseNoroff.Controllers
             return _db.Products.Include(s => s.Size).ToList();
         }
 
-        //public List<OrderItem> OrderItem()
-        //{
-        //    return _db.OrderItems.ToList();
-        //}
-
         public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+
+            }
+
             return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
                 .ThenInclude(p => p.Product).ToList();
         }
@@ -107,6 +108,27 @@ namespace CaseNoroff.Controllers
         {
             return _db.Orders.Include(oi => oi.OrderItems)
                 .ThenInclude(p => p.Product).ToList();
+        }
+
+        [HttpPost]
+        public OrderViewModel OrderAndOrderItem([FromBody] OrderViewModel orderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                orderViewModel.Order.CustomerId = orderViewModel.CustomerId;
+                orderViewModel.Order.OrderDate = DateTime.Now;
+                _db.Orders.Add(orderViewModel.Order);
+                _db.SaveChanges();
+
+                foreach (OrderItem orderItem in orderViewModel.OrderItems)
+                {
+                    orderItem.OrderId = orderViewModel.Order.OrderId;
+                    _db.OrderItems.Add(orderItem);
+                    _db.SaveChanges();
+                }
+            }
+
+            return orderViewModel;
         }
     }
 }
