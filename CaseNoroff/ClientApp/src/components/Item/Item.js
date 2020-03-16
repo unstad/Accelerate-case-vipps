@@ -8,7 +8,7 @@ import {
 export default class Item extends React.Component {
     constructor(props) {
         super(props);
-        this.modalRef = React.createRef(); 
+        this.modalRef = React.createRef();
         this.state = {
             id: this.props.item.productId,
             name: this.props.item.productName,
@@ -52,6 +52,7 @@ export default class Item extends React.Component {
             this.setState({ dropdownOpen: false })
         }
     }
+
 
     render() {
         /*const sizes = this.state.sizes.map(size => {

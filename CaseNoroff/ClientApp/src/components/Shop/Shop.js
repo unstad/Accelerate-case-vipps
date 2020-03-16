@@ -9,12 +9,20 @@ export class Shop extends React.Component {
         this.state = {
             itemList: [],
             filteredItemList: [],
+<<<<<<< HEAD
             addedItems: []
+=======
+            addedItems: JSON.parse(localStorage.getItem('cartList'))
+>>>>>>> master
         };
     }
 
     async componentDidMount() {
+<<<<<<< HEAD
         this.setState({itemList: [], filteredItemList: [] })
+=======
+        this.setState({ itemList: [], filteredItemList: [] })
+>>>>>>> master
         const api_url = `https://localhost:44364/ECommerce/Product`
         try {
             const response = await fetch(api_url).then(resp => resp.json());
@@ -39,9 +47,13 @@ export class Shop extends React.Component {
         const list = [...this.state.addedItems];
         list.push(item);
         console.log(list[0].productName);
+<<<<<<< HEAD
         console.log(list);
         this.setState({ addedItems: list });
         console.log(this.state.addedItems)
+=======
+        this.setState({ addedItems: list });
+>>>>>>> master
         localStorage.setItem('cartList', JSON.stringify(list));
     }
 
@@ -61,7 +73,10 @@ export class Shop extends React.Component {
                     id='searchBar' placeholder='Search item'>
                 </input>
                 <ul id='itemList'>{items}</ul>
+<<<<<<< HEAD
                 <Link to = "/cart"> Cart </Link>
+=======
+>>>>>>> master
             </div>
         )
     }
