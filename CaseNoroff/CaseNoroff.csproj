@@ -23,14 +23,14 @@
 </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.2" />
-    <PackageReference Include="Twilio" Version="5.37.6" />
-    <PackageReference Include="Twilio.AspNet.Mvc" Version="5.33.1" />
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     <None Remove="ScaffoldingReadMe.txt" />
+    <Content Remove="Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml" />
+    <Content Remove="Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200310155657_AddedComputedValue.cs" />
