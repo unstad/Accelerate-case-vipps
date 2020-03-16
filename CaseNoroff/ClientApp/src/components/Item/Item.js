@@ -10,12 +10,12 @@ export default class Item extends React.Component {
         super(props);
         this.modalRef = React.createRef(); 
         this.state = {
-            id: this.props.item.id,
-            name: this.props.item.name,
+            id: this.props.item.productId,
+            name: this.props.item.productName,
             description: this.props.item.description,
             price: this.props.item.price,
-            image: this.props.item.image,
-            sizes: this.props.item.sizes,
+            image: this.props.item.imgURL,
+            //sizes: this.props.item.sizes,
             modal: false,
             dropdownOpen: false
         }
@@ -54,11 +54,11 @@ export default class Item extends React.Component {
     }
 
     render() {
-        const sizes = this.state.sizes.map(size => {
+        /*const sizes = this.state.sizes.map(size => {
             return (
                 <DropdownItem key={size}>{size}</DropdownItem>
                 )
-        })
+        })*/
         return (
             <div className='itemContainer'>
                 <Card onClick={() => this.toggle()}>
@@ -67,7 +67,6 @@ export default class Item extends React.Component {
                         <CardTitle>{this.state.name}</CardTitle>
                         <CardSubtitle>price</CardSubtitle>
                         <CardText>NOK {this.state.price},-</CardText>
-                        <Button className='addBtn'>Add to cart</Button>
                     </CardBody>
                 </Card>
                 <div className='modal' ref={modalRef => this.modalRef = modalRef}>
@@ -86,11 +85,8 @@ export default class Item extends React.Component {
                                 <DropdownToggle caret>
                                     Size
                                 </DropdownToggle>
-                                <DropdownMenu>
-                                    {sizes}
-                                </DropdownMenu>
                             </Dropdown>
-                            <Button className='addBtn'>Add to cart</Button>
+                            <Button className='addBtn' onClick={this.props.buttonClick}>Add to cart</Button>
                         </footer>
                     </div>
                 </div>
