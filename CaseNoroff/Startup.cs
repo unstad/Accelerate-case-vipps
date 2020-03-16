@@ -66,7 +66,7 @@ namespace CaseNoroff
 
 			services.AddAuthentication()
 				.AddIdentityServerJwt();
-							
+
 
 			//services.AddControllersWithViews();
 
