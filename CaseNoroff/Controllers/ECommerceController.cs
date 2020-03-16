@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
+using CaseNoroff.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -78,20 +79,29 @@ namespace CaseNoroff.Controllers
                 .ThenInclude(p => p.Product).ToList();
         }
 
-        //[HttpPost]
-        //public Order CustomerAndOrderAndOrderItemAndProduct(Customer customer)
-        //{
-        //    //return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
-        //    //    .ThenInclude(p => p.Product).ToList();
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.Customers.Add(customer);
-        //        _db.Orders.Add(customer.Orders.FirstOrDefault());
-        //        _db.SaveChanges();
-        //    }
+        [HttpPost]
+        public CustomerOrderViewModel CustomerAndOrderAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Customers.Add(customerOrderViewModel.Customer);
+                _db.SaveChanges();
 
-        //    return customer;
-        //}
+                customerOrderViewModel.Order.CustomerId = customerOrderViewModel.Customer.CustomerId;
+                customerOrderViewModel.Order.OrderDate = DateTime.Now;
+                _db.Orders.Add(customerOrderViewModel.Order);
+                _db.SaveChanges();
+
+                foreach(OrderItem orderItem in customerOrderViewModel.OrderItems)
+                {
+                    orderItem.OrderId = customerOrderViewModel.Order.OrderId;
+                    _db.OrderItems.Add(orderItem);
+                    _db.SaveChanges();
+                }
+            }
+
+            return customerOrderViewModel;
+        }
 
         public List<Order> OrderAndOrderItemAndProduct()
         {
