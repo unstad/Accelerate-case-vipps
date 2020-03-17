@@ -37,7 +37,7 @@ export class Cart extends React.Component {
     }
 
     render() {
-        if (this.state.itemList.length == 0) {
+        if (this.state.itemList == null || this.state.itemList.length == 0) {
             return (
                 <div>
                     <p>Nothing added to cart</p>
