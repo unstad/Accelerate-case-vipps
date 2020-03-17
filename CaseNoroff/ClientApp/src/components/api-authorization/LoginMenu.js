@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { NavItem, NavLink, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { NavItem, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
@@ -34,12 +34,9 @@ export class LoginMenu extends Component {
     }
 
     removeDropdown() {
-    //    setTimeout(() => {
             this.setState({
                 showDropdown: false
-            })//},
-    //        1000)
-
+            })
     }
 
     componentDidMount() {
@@ -74,11 +71,21 @@ export class LoginMenu extends Component {
 
     authenticatedView(userName, profilePath, logoutPath) {
         return (<Fragment>
+            <Dropdown className="droooooop" onMouseLeave={this.removeDropdown} isOpen={this.state.showDropdown} toggle={this.toggle}>
+                <DropdownToggle onMouseEnter={this.showDropdown} className="toggler">
+                    <img className="navImg" src={iconUser} alt="User" />
+                </DropdownToggle>
+                {this.state.showDropdown && (
+                    <DropdownMenu className="drooopdownMenu">
+                        <DropdownItem header> {userName} </DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem tag={Link} className="text-dark" to={profilePath}>Profile</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to="/history">Purchase History</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem tag={Link} className="text-dark" to={logoutPath}>Logout</DropdownItem>
+                    </DropdownMenu>)}
+            </Dropdown>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
             </NavItem>
         </Fragment>);
 
