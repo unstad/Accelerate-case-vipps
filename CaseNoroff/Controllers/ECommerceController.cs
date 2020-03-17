@@ -119,7 +119,17 @@ namespace CaseNoroff.Controllers
         {
             if (ModelState.IsValid)
             {
-                orderViewModel.Order.CustomerId = orderViewModel.CustomerId;
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                Customer customer = null;
+                if (userId != null)
+                {
+                    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
+
+                    //customerOrderViewModel.Customer.UserId = userId;
+                }
+
+
+                orderViewModel.Order.CustomerId = customer.CustomerId;
                 orderViewModel.Order.OrderDate = DateTime.Now;
                 _db.Orders.Add(orderViewModel.Order);
                 _db.SaveChanges();
