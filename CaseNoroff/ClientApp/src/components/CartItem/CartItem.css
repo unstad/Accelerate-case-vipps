@@ -1,0 +1,36 @@
+﻿.cartContainer{
+    display: flex;
+    flex-direction: row;
+    margin:50px;
+    border: solid 1.5px black;
+    border-radius: 7px;
+}
+
+.cartItemText{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.cartItemPrice{
+    margin-top: 140px;
+}
+.delBtn {
+    width: 170px;
+    background-color: #f90b1f;
+    color: white;
+    margin-right: 30px;
+}
+
+.cartItemImage {
+    border: 0px;
+    border-radius: 7px;
+    width: 300px;
+    height: 320px
+}
+
+.cartItemName{
+    margin-right: 20px;
+}
