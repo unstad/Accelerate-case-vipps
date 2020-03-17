@@ -113,4 +113,3 @@ namespace CaseNoroff.Areas.Identity.Pages.Account
         }
     }
 }
->>>>>>> origin/jonErikApi
