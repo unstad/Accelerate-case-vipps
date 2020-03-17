@@ -9,7 +9,6 @@ export class Cart extends React.Component {
         this.state = {
             itemList: []
         }
-        console.log(this.state.itemList);
     }
 
     componentDidMount() {
@@ -19,20 +18,15 @@ export class Cart extends React.Component {
     }
 
     removeItem = (item, event) => {
-        console.log("Remove clicked")
-
         let list = [...this.state.itemList];
         let index = list.indexOf(event.target.value);
-        console.log(item);
         for (let i = 0; i < list.length; i++) {
             if (list[i] == item) {
                 list.splice(i, 1)
             }
         }
-        console.log(list);
         localStorage.setItem('cartList', JSON.stringify(list));
         this.setState({ itemList: list })
-        console.log(this.state.itemList);
     }
 
     sumPrice = () => {
@@ -45,14 +39,12 @@ export class Cart extends React.Component {
 
     render() {
         if (localStorage.getItem('cartList') == 0 || this.state.itemList.length == 0) {
-            console.log("HERE")
             return (
                 <div>
                     <p>Nothing added to cart</p>
                 </div>
             )
         } else {
-            console.log("WRONG" + this.state.itemList.length)
             const list = this.state.itemList.map(item => {
                 return (
                     <li className='cartLi' key={item.productId}>
