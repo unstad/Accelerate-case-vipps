@@ -90,7 +90,7 @@ namespace CaseNoroff.Areas.Identity.Pages.Account
 
                     if (!twoFactorEnabled)
                     {
-                        return RedirectToPage("./Manage/TwoFactorAuthentication");
+                        return RedirectToPage("./Manage/TwoFactorAuthentication", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                     }
                     return LocalRedirect(returnUrl);
                 }
