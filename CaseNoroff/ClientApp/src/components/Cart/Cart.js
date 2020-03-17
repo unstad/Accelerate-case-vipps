@@ -7,7 +7,14 @@ export class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemList: JSON.parse(localStorage.getItem('cartList'))
+            itemList: []
+        }
+        console.log(this.state.itemList);
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem('cartList') != 0) {
+            this.setState({ itemList: JSON.parse(localStorage.getItem('cartList')) })
         }
     }
 
@@ -37,13 +44,15 @@ export class Cart extends React.Component {
     }
 
     render() {
-        if (this.state.itemList == null || this.state.itemList.length == 0) {
+        if (localStorage.getItem('cartList') == 0 || this.state.itemList.length == 0) {
+            console.log("HERE")
             return (
                 <div>
                     <p>Nothing added to cart</p>
                 </div>
             )
         } else {
+            console.log("WRONG" + this.state.itemList.length)
             const list = this.state.itemList.map(item => {
                 return (
                     <li className='cartLi' key={item.productId}>

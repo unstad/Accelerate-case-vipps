@@ -15,7 +15,7 @@ export class Shop extends React.Component {
 
     async componentDidMount() {
         this.setState({itemList: [], filteredItemList: [] })
-        const api_url = `https://localhost:5001/ECommerce/Product`
+        const api_url = `https://localhost:44364/ECommerce/Product`
         try {
             const response = await fetch(api_url).then(resp => resp.json());
             let list = [...this.state.itemList];
@@ -36,7 +36,10 @@ export class Shop extends React.Component {
     }
 
     addItem = (item, event) => {
-        const list = [...this.state.addedItems];
+        let list = []
+        if (localStorage.getItem('cartList') != 0) {
+            list = [...this.state.addedItems];
+        }
         list.push(item);
         console.log(list);
         this.setState({ addedItems: list });
