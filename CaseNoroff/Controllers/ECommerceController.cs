@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
 using CaseNoroff.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +38,7 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
+        [Authorize]
         public List<Customer> Customers()
         {
             return _db.Customers.ToList();
@@ -71,11 +74,6 @@ namespace CaseNoroff.Controllers
 
         public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-
-            }
-
             return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
                 .ThenInclude(p => p.Product).ToList();
         }
@@ -85,6 +83,12 @@ namespace CaseNoroff.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                if (userId != null)
+                {
+                    customerOrderViewModel.Customer.UserId = userId;
+                }
+
                 _db.Customers.Add(customerOrderViewModel.Customer);
                 _db.SaveChanges();
 
