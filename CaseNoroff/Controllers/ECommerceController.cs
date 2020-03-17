@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
+using CaseNoroff.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,7 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
+        [Authorize]
         public List<Customer> Customers()
         {
             return _db.Customers.ToList();
@@ -66,13 +69,8 @@ namespace CaseNoroff.Controllers
 
         public List<Product> Product()
         {
-            return _db.Products.ToList();
+            return _db.Products.Include(s => s.Size).ToList();
         }
-
-        //public List<OrderItem> OrderItem()
-        //{
-        //    return _db.OrderItems.ToList();
-        //}
 
         public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
         {
@@ -80,25 +78,61 @@ namespace CaseNoroff.Controllers
                 .ThenInclude(p => p.Product).ToList();
         }
 
-        //[HttpPost]
-        //public Order CustomerAndOrderAndOrderItemAndProduct(Customer customer)
-        //{
-        //    //return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
-        //    //    .ThenInclude(p => p.Product).ToList();
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.Customers.Add(customer);
-        //        _db.Orders.Add(customer.Orders.FirstOrDefault());
-        //        _db.SaveChanges();
-        //    }
+        [HttpPost]
+        public CustomerOrderViewModel CustomerAndOrderAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                if (userId != null)
+                {
+                    customerOrderViewModel.Customer.UserId = userId;
+                }
 
-        //    return customer;
-        //}
+                _db.Customers.Add(customerOrderViewModel.Customer);
+                _db.SaveChanges();
+
+                customerOrderViewModel.Order.CustomerId = customerOrderViewModel.Customer.CustomerId;
+                customerOrderViewModel.Order.OrderDate = DateTime.Now;
+                _db.Orders.Add(customerOrderViewModel.Order);
+                _db.SaveChanges();
+
+                foreach(OrderItem orderItem in customerOrderViewModel.OrderItems)
+                {
+                    orderItem.OrderId = customerOrderViewModel.Order.OrderId;
+                    _db.OrderItems.Add(orderItem);
+                    _db.SaveChanges();
+                }
+            }
+
+            return customerOrderViewModel;
+        }
 
         public List<Order> OrderAndOrderItemAndProduct()
         {
             return _db.Orders.Include(oi => oi.OrderItems)
                 .ThenInclude(p => p.Product).ToList();
+        }
+
+        [HttpPost]
+        public OrderViewModel OrderAndOrderItem([FromBody] OrderViewModel orderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                orderViewModel.Order.CustomerId = orderViewModel.CustomerId;
+                orderViewModel.Order.OrderDate = DateTime.Now;
+                _db.Orders.Add(orderViewModel.Order);
+                _db.SaveChanges();
+
+                foreach (OrderItem orderItem in orderViewModel.OrderItems)
+                {
+                    orderItem.OrderId = orderViewModel.Order.OrderId;
+                    _db.OrderItems.Add(orderItem);
+                    _db.SaveChanges();
+                }
+            }
+
+            return orderViewModel;
         }
     }
 }

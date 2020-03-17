@@ -14,10 +14,10 @@
 .*.lb
 <<<<<<< HEAD
 .vs/
+.vs/CaseNoroff/v16/.suo
+.vs/CaseNoroff/v16/.suo
+.vs/CaseNoroff/v16/Server/sqlite3/storage.ide-wal
+
 =======
 .vs/
 >>>>>>> de67fad33dec705064c6291e8de67c9521028d19
-.vs/CaseNoroff/v16/.suo
-.vs/CaseNoroff/v16/Server/sqlite3/storage.ide
-.vs/CaseNoroff/v16/Server/sqlite3/storage.ide-shm
-.vs/CaseNoroff/v16/Server/sqlite3/storage.ide-wal
