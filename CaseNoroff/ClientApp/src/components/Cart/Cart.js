@@ -7,25 +7,26 @@ export class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemList: JSON.parse(localStorage.getItem('cartList'))
+            itemList: []
+        }
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem('cartList') != 0) {
+            this.setState({ itemList: JSON.parse(localStorage.getItem('cartList')) })
         }
     }
 
     removeItem = (item, event) => {
-        console.log("Remove clicked")
-
         let list = [...this.state.itemList];
         let index = list.indexOf(event.target.value);
-        console.log(item);
         for (let i = 0; i < list.length; i++) {
             if (list[i] == item) {
                 list.splice(i, 1)
             }
         }
-        console.log(list);
         localStorage.setItem('cartList', JSON.stringify(list));
         this.setState({ itemList: list })
-        console.log(this.state.itemList);
     }
 
     sumPrice = () => {
@@ -37,7 +38,7 @@ export class Cart extends React.Component {
     }
 
     render() {
-        if (this.state.itemList == null || this.state.itemList.length == 0) {
+        if (localStorage.getItem('cartList') == 0 || this.state.itemList.length == 0) {
             return (
                 <div>
                     <p>Nothing added to cart</p>
