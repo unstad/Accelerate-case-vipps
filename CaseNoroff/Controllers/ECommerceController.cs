@@ -5,11 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
-<<<<<<< HEAD
-=======
 using CaseNoroff.ViewModels;
 using Microsoft.AspNetCore.Authorization;
->>>>>>> origin/jonErikApi
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
