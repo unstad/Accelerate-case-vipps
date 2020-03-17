@@ -36,11 +36,12 @@ export class Shop extends React.Component {
     }
 
     addItem = (item, event) => {
-        const list = [...this.state.addedItems];
+        let list = []
+        if (localStorage.getItem('cartList') != null) {
+            list = [...this.state.addedItems];
+        }
         list.push(item);
-        console.log(list);
         this.setState({ addedItems: list });
-        console.log(this.state.addedItems)
         localStorage.setItem('cartList', JSON.stringify(list));
     }
 

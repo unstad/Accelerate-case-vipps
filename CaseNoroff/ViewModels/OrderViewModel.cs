@@ -8,7 +8,6 @@ namespace CaseNoroff.ViewModels
 {
     public class OrderViewModel
     {
-        public int CustomerId { get; set; }
         public Order Order { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
