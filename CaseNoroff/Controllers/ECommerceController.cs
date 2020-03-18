@@ -31,6 +31,13 @@ namespace CaseNoroff.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                var userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
+                if (userId != null)
+                {
+                    customer.UserId = userId;
+                    customer.Email = userName;
+                }
                 _db.Customers.Add(customer);
                 _db.SaveChanges();
             }
@@ -38,7 +45,6 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
-        [Authorize]
         public List<Customer> Customers()
         {
             return _db.Customers.ToList();
@@ -62,21 +68,21 @@ namespace CaseNoroff.Controllers
             return order;
         }
 
-        public List<Order> Orders()
-        {
-            return _db.Orders.ToList();
-        }
+        //public List<Order> Orders()
+        //{
+        //    return _db.Orders.ToList();
+        //}
 
         public List<Product> Product()
         {
             return _db.Products.Include(s => s.Size).ToList();
         }
 
-        public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
-        {
-            return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
-                .ThenInclude(p => p.Product).ToList();
-        }
+        //public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
+        //{
+        //    return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
+        //        .ThenInclude(p => p.Product).ToList();
+        //}
 
         [HttpPost]
         public CustomerOrderViewModel CustomerAndOrderAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
@@ -84,15 +90,20 @@ namespace CaseNoroff.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                Customer customer = null;
                 if (userId != null)
                 {
-                    customerOrderViewModel.Customer.UserId = userId;
+                    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
+                    customerOrderViewModel.Customer = customer;
+                    customerOrderViewModel.Order.CustomerId = customer.CustomerId;
+                }
+                else
+                {
+                    _db.Customers.Add(customerOrderViewModel.Customer);
+                    _db.SaveChanges();
+                    customerOrderViewModel.Order.CustomerId = customerOrderViewModel.Customer.CustomerId;
                 }
 
-                _db.Customers.Add(customerOrderViewModel.Customer);
-                _db.SaveChanges();
-
-                customerOrderViewModel.Order.CustomerId = customerOrderViewModel.Customer.CustomerId;
                 customerOrderViewModel.Order.OrderDate = DateTime.Now;
                 _db.Orders.Add(customerOrderViewModel.Order);
                 _db.SaveChanges();
@@ -112,37 +123,6 @@ namespace CaseNoroff.Controllers
         {
             return _db.Orders.Include(oi => oi.OrderItems)
                 .ThenInclude(p => p.Product).ToList();
-        }
-
-        [HttpPost]
-        public OrderViewModel OrderAndOrderItem([FromBody] OrderViewModel orderViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-                Customer customer = null;
-                if (userId != null)
-                {
-                    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
-
-                    //customerOrderViewModel.Customer.UserId = userId;
-                }
-
-
-                orderViewModel.Order.CustomerId = customer.CustomerId;
-                orderViewModel.Order.OrderDate = DateTime.Now;
-                _db.Orders.Add(orderViewModel.Order);
-                _db.SaveChanges();
-
-                foreach (OrderItem orderItem in orderViewModel.OrderItems)
-                {
-                    orderItem.OrderId = orderViewModel.Order.OrderId;
-                    _db.OrderItems.Add(orderItem);
-                    _db.SaveChanges();
-                }
-            }
-
-            return orderViewModel;
         }
     }
 }
