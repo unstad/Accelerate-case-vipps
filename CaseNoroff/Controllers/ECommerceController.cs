@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
 using CaseNoroff.ViewModels;
@@ -13,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CaseNoroff.Controllers
 {
+    [Authorize]
     public class ECommerceController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -38,9 +41,19 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
-        [Authorize]
+        [HttpGet]
         public List<Customer> Customers()
         {
+			var apiKey = "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";
+			var client = new SendGridClient(apiKey);
+			var from = new EmailAddress("kristian.nilsen@no.experis.com", "Vipps store");
+			var to = new EmailAddress("yakihah538@mailernam.com"); //get user email
+			var subject = "Order confirmation";
+			var plainText = "lmao";
+			var htmlContent = "<strong>Gucci belt</strong>";
+			var msg = MailHelper.CreateSingleEmail(from, to, subject, plainText, htmlContent);
+			client.SendEmailAsync(msg);
+				
             return _db.Customers.ToList();
         }
 
