@@ -26,17 +26,28 @@ namespace CaseNoroff.Controllers
             return _db.Customers.Find(id);
         }
 
+        //Add new customer, update if already exists. Should be used in profilpage, or new order if logged in
         [HttpPost]
         public Customer Customer([FromBody] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-                var userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
+
                 if (userId != null)
                 {
                     customer.UserId = userId;
-                    customer.Email = userName;
+                    var user = _db.Users.FirstOrDefault(c => c.Id == userId);
+                    customer.Email = user.UserName;
+                    var alreadyCustomer = _db.Customers.AsNoTracking().FirstOrDefault(c => c.Email == customer.Email);
+                    if (alreadyCustomer != null) //Update if customer already exists
+                    {
+                        customer.CustomerId = alreadyCustomer.CustomerId;
+                        _db.Update(customer);
+                        _db.SaveChanges();
+                        return customer;
+                    }                 
+
                 }
                 _db.Customers.Add(customer);
                 _db.SaveChanges();
@@ -94,7 +105,7 @@ namespace CaseNoroff.Controllers
                 if (userId != null)
                 {
                     customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
-                    customerOrderViewModel.Customer = customer;
+                    customerOrderViewModel.Customer = customer; //Only to get the customer on return data, nothing is added
                     customerOrderViewModel.Order.CustomerId = customer.CustomerId;
                 }
                 else
