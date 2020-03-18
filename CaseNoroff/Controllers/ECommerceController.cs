@@ -21,9 +21,15 @@ namespace CaseNoroff.Controllers
             _db = db;
         }
 
-        public Customer Customer(int id)
+        public ActionResult<Customer> Customer()
         {
-            return _db.Customers.Find(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+
+            if (userId == null)
+            {
+                return NotFound();
+            }
+            return _db.Customers.FirstOrDefault(c => c.UserId == userId);
         }
 
         //Add new customer, update if already exists. Should be used in profilpage, or new order if logged in
