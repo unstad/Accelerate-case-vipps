@@ -71,7 +71,7 @@ namespace CaseNoroff.Controllers
             {
                 return NotFound();
             }
-            return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
+            return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
 
         public ActionResult<Order> Order(int id)
@@ -93,7 +93,7 @@ namespace CaseNoroff.Controllers
 
         //Post order, if anonymous, post customer also, if logged in, find existing customer row and link to order.
         [HttpPost]
-        public CustomerOrderViewModel CustomerAndOrderAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        public CustomerOrderViewModel CustomerAndOrderAndDeliveryAdressAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +134,11 @@ namespace CaseNoroff.Controllers
                 _db.Orders.Add(customerOrderViewModel.Order);
                 _db.SaveChanges();
 
-                foreach(OrderItem orderItem in customerOrderViewModel.OrderItems)
+                customerOrderViewModel.DeliveryAddress.OrderId = customerOrderViewModel.Order.OrderId;
+                _db.DeliveryAddresses.Add(customerOrderViewModel.DeliveryAddress);
+                _db.SaveChanges();
+
+                foreach (OrderItem orderItem in customerOrderViewModel.OrderItems)
                 {
                     orderItem.OrderId = customerOrderViewModel.Order.OrderId;
                     _db.OrderItems.Add(orderItem);
