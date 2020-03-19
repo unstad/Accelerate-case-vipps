@@ -69,7 +69,9 @@ namespace CaseNoroff.Controllers
         {
             return _db.Orders.ToList();
         }
+		
 		[AllowAnonymous]
+		[HttpGet]
         public List<Product> Product()
         {
             return _db.Products.Include(s => s.Size).ToList();
