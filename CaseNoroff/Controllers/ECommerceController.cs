@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CaseNoroff.Data;
@@ -83,7 +85,7 @@ namespace CaseNoroff.Controllers
             {
                 return NotFound();
             }
-            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
+            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
         }
 
         public List<Product> Product()
@@ -91,26 +93,13 @@ namespace CaseNoroff.Controllers
             return _db.Products.Include(s => s.Size).ToList();
         }
 
-        //Post order, if anonymous, post customer also, if logged in, find existing customer row and link to order.
         [HttpPost]
         public CustomerOrderViewModel CustomerAndOrderAndDeliveryAdressAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             if (ModelState.IsValid)
             {
-                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-                //Customer customer = null;
-                //if (userId != null)
-                //{
-                //    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
-                //    customerOrderViewModel.Customer = customer; //Only to get the customer on return data, nothing is added
-                //    customerOrderViewModel.Order.CustomerId = customer.CustomerId;
-                //}
-                //else
-                //{
-                //}
-
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-                if(customerOrderViewModel.Customer.UserId == null && userId != null)
+                if (customerOrderViewModel.Customer.UserId == null && userId != null)
                 {
                     customerOrderViewModel.Customer.UserId = userId;
                 }
@@ -120,6 +109,10 @@ namespace CaseNoroff.Controllers
                 if (alreadyCustomer != null) //Update if customer already exists
                 {
                     customerOrderViewModel.Customer.CustomerId = alreadyCustomer.CustomerId;
+                    if (alreadyCustomer.UserId == null && userId != null)
+                    {
+                        customerOrderViewModel.Customer.UserId = userId;
+                    }
                     _db.Update(customerOrderViewModel.Customer);
                     _db.SaveChanges();
                 }
@@ -143,7 +136,87 @@ namespace CaseNoroff.Controllers
                     orderItem.OrderId = customerOrderViewModel.Order.OrderId;
                     _db.OrderItems.Add(orderItem);
                     _db.SaveChanges();
+                }           
+
+                // Credentials
+                // Legg inn din Epost og passord her!
+                var credentials = new NetworkCredential("noroffvipps@gmail.com", "Noroff31012?");
+                string productString = "";
+                string productList = "";
+                string seeOrderOnline = "";
+                decimal totalPrice = 0.00M;
+
+                if(customerOrderViewModel.Customer.UserId != null)
+                {
+                    seeOrderOnline = "<p>Log in <a  href='https://localhost:5001/Identity/Account/Login?returnUrl=%2Fauthentication%2Flogin'>here</a> to see order online.</p>";
                 }
+                else
+                {
+                    seeOrderOnline = "<p>Follow this <a href='https://localhost:5001/Identity/Account/Register?returnUrl=/authentication/login?id=" + customerOrderViewModel.Order.OrderId + "'>link</a> to register user, and view order online.</p>";
+                }
+
+
+                if (customerOrderViewModel.OrderItems.Count > 1)
+                {
+                    productString = "<h2>Products</h2>";
+                }
+                else
+                {
+                    productString = "<h2>Product</h2>";
+                }
+
+                foreach (var product in customerOrderViewModel.OrderItems)
+                {
+                    var productObject = _db.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+
+                    productList += "<tr><td style='border-bottom:1px solid black;text-align: left;'>" + productObject.ProductName +
+                        "</td><td style='border-bottom:1px solid black;text-align: right;'>" + product.ProductQuantity +
+                        "</td><td style='border-bottom:1px solid black;text-align: right;'>" + product.TotalPrice + ",-</td></tr>";
+                    totalPrice += Convert.ToDecimal(product.TotalPrice);
+                }
+
+                productString += "<table style='width:100%'>" +
+                    "<tr>" +
+                        "<th style='border-bottom:1px solid black; text-align: left;'>Product</th>" +
+                        "<th style='border-bottom:1px solid black; text-align: right;'>Product quantity</th>" +
+                        "<th style='border-bottom:1px solid black; text-align: right;'>Price</th>" +
+                    "</tr>" +
+                        productList +
+                        "<tr><td></td><td></td><td style='text-align: right;'>= " + totalPrice + ",-</td></tr>" +
+                 "</table>";
+
+                // Mail message
+                var mail = new MailMessage()
+                {
+                    From = new MailAddress("noroffvipps@gmail.com"),
+                    Subject = "Order Confirmation Noroff Vipps",
+                    Body = "<div style='text-align:center'>" +
+                                "<h1>Order Confirmation Noroff Vipps</h1>" +
+                                "<p>Your order id is: " + customerOrderViewModel.Order.OrderId + "</p>" +
+                                seeOrderOnline +
+                                productString +
+                                "<h2>Delivery address</h2>" +
+                                "<p>" + customerOrderViewModel.Customer.FirstName + " " + customerOrderViewModel.Customer.LastName + "</p>" +
+                                "<p>" + customerOrderViewModel.DeliveryAddress.StreetAddress + "</p>" +
+                                "<p>" + customerOrderViewModel.DeliveryAddress.PostalCode + " " + customerOrderViewModel.DeliveryAddress.City + "</p>" +
+                                "<p>" + customerOrderViewModel.DeliveryAddress.Country + "</p>" +
+                                "<br>" +
+                                //"<h2>Order Confirmation Noroff Vipps</h2>" +
+                          "</div>"
+                };
+                mail.IsBodyHtml = true;
+                mail.To.Add(new MailAddress("jon.erik.ullvang@gmail.com"));
+                // Smtp client
+                var client = new SmtpClient()
+                {
+                    Port = 587,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Host = "smtp.gmail.com",
+                    EnableSsl = true,
+                    Credentials = credentials
+                };
+                client.Send(mail);
             }
 
             return customerOrderViewModel;
@@ -181,6 +254,18 @@ namespace CaseNoroff.Controllers
         //    }
 
         //    return order;
+        //}
+
+        //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+        //Customer customer = null;
+        //if (userId != null)
+        //{
+        //    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
+        //    customerOrderViewModel.Customer = customer; //Only to get the customer on return data, nothing is added
+        //    customerOrderViewModel.Order.CustomerId = customer.CustomerId;
+        //}
+        //else
+        //{
         //}
     }
 }
