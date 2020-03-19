@@ -4,14 +4,16 @@ using CaseNoroff.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CaseNoroff.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200318124805_EmailUnique")]
+    partial class EmailUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,36 +133,6 @@ namespace CaseNoroff.Data.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("CaseNoroff.Models.DeliveryAddress", b =>
-                {
-                    b.Property<int>("DeliveryAddressId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostalCode")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DeliveryAddressId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("DeliveryAddresses");
                 });
 
             modelBuilder.Entity("CaseNoroff.Models.Order", b =>
@@ -472,15 +444,6 @@ namespace CaseNoroff.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CaseNoroff.Models.DeliveryAddress", b =>
-                {
-                    b.HasOne("CaseNoroff.Models.Order", "Order")
-                        .WithOne("DeliveryAddress")
-                        .HasForeignKey("CaseNoroff.Models.DeliveryAddress", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CaseNoroff.Models.Order", b =>
