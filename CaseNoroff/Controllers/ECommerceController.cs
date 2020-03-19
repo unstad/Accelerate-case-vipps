@@ -5,8 +5,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
 using CaseNoroff.ViewModels;
@@ -17,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CaseNoroff.Controllers
 {
-	[Authorize]
     public class ECommerceController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -67,12 +64,7 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
-<<<<<<< HEAD
-        [HttpGet]
-        public List<Customer> Customers()
-=======
         public ActionResult<List<Order>> OrderAndOrderItemAndProduct()
->>>>>>> origin/jonErikIdentity
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
@@ -83,13 +75,8 @@ namespace CaseNoroff.Controllers
             }
             return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
-<<<<<<< HEAD
-		
-        public List<Order> Orders()
-=======
 
         public ActionResult<Order> Order(int id)
->>>>>>> origin/jonErikIdentity
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
@@ -100,9 +87,7 @@ namespace CaseNoroff.Controllers
             }
             return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
         }
-		
-		[AllowAnonymous]
-		[HttpGet]
+
         public List<Product> Product()
         {
             return _db.Products.Include(s => s.Size).ToList();
