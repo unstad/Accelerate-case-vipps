@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CaseNoroff.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class ECommerceController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -64,12 +64,12 @@ namespace CaseNoroff.Controllers
 
             return order;
         }
-
+		
         public List<Order> Orders()
         {
             return _db.Orders.ToList();
         }
-
+		[AllowAnonymous]
         public List<Product> Product()
         {
             return _db.Products.Include(s => s.Size).ToList();
