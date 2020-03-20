@@ -80,7 +80,7 @@ export class LoginMenu extends Component {
                         <DropdownItem header> {userName} </DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem tag={Link} className="text-dark" to={profilePath}>Profile</DropdownItem>
-                        <DropdownItem tag={Link} className="text-dark" to="/history">Purchase History</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to="/History">Purchase History</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem tag={Link} className="text-dark" to={logoutPath}>Logout</DropdownItem>
                     </DropdownMenu>)}

@@ -22,6 +22,7 @@ namespace CaseNoroff.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Size> Sizes { get; set; }
+        public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,7 +32,10 @@ namespace CaseNoroff.Data
                 entity.Property(e => e.TotalPrice)
                     .HasColumnType("decimal(18, 2)")
                     .HasComputedColumnSql("(CONVERT([decimal](18,2),[dbo].[getTotalPrice]([OrderItemId])))");
+            });
 
+            modelBuilder.Entity<Customer>(entity => {
+                entity.HasIndex(e => e.Email).IsUnique();
             });
         }
         
