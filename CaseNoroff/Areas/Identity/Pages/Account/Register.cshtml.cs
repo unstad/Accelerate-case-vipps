@@ -46,6 +46,8 @@ namespace CaseNoroff.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public int? CustomerId { get; set; }
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
@@ -67,9 +69,10 @@ namespace CaseNoroff.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, int? customerId = null)
         {
             ReturnUrl = returnUrl;
+            CustomerId = customerId;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

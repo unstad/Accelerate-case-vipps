@@ -37,6 +37,10 @@ export class Cart extends React.Component {
         return sum;
     }
 
+	goToOrderpage = () => {
+		this.props.history.push('/order');	
+	}
+
     render() {
         if (localStorage.getItem('cartList') == 0 || this.state.itemList.length == 0) {
             return (
@@ -63,7 +67,7 @@ export class Cart extends React.Component {
                         <div id="checkout">
                             <h3>Checkout</h3>
                             <p id='subTotal' ><strong>Sub-total:</strong> NOK {this.sumPrice()}.-</p>
-                            <Button id='confirmBtn'>Confirm</Button>
+                            <Button id='confirmBtn' onClick={this.goToOrderpage}>Confirm</Button>
                         </div>
                     </div>
                 </div>
