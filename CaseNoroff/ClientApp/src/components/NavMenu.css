@@ -36,7 +36,7 @@ html {
 }
 
 .droooooop .drooopdownMenu {
-    -webkit-transition: opacity 1s ease;
+   /* -webkit-transition: opacity 1s ease;*/
 }
 
 .droooooop:hover .drooopdownMenu {
