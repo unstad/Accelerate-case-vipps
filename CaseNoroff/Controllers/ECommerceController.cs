@@ -152,7 +152,7 @@ namespace CaseNoroff.Controllers
                 }
                 else
                 {
-                    seeOrderOnline = "<p>Follow this <a href='https://localhost:5001/Identity/Account/Register?returnUrl=/authentication/login?id=" + customerOrderViewModel.Order.OrderId + "'>link</a> to register user, and view order online.</p>";
+                    seeOrderOnline = "<p>Follow this <a href='https://localhost:5001/Identity/Account/Register?returnUrl=/authentication/login&customerId=" + customerOrderViewModel.Customer.CustomerId + "'>link</a> to register user, and view order online.</p>";
                 }
 
 
@@ -205,7 +205,7 @@ namespace CaseNoroff.Controllers
                           "</div>"
                 };
                 mail.IsBodyHtml = true;
-                mail.To.Add(new MailAddress("jon.erik.ullvang@gmail.com"));
+                mail.To.Add(new MailAddress(customerOrderViewModel.Customer.Email));
                 // Smtp client
                 var client = new SmtpClient()
                 {
