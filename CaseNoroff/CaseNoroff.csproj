@@ -50,6 +50,10 @@
     <Compile Remove="Data\Migrations\20200313105243_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200319100355_addedDeliveryAddressClass.cs" />
     <Compile Remove="Data\Migrations\20200319100355_addedDeliveryAddressClass.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200320121150_deleteDeliveryAddressClass.cs" />
+    <Compile Remove="Data\Migrations\20200320121150_deleteDeliveryAddressClass.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200320122328_dataAnnotationProduct.cs" />
+    <Compile Remove="Data\Migrations\20200320122328_dataAnnotationProduct.Designer.cs" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

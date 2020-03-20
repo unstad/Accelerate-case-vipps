@@ -73,7 +73,7 @@ namespace CaseNoroff.Controllers
             {
                 return NotFound();
             }
-            return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
+            return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
 
         public ActionResult<Order> Order(int id)
@@ -85,7 +85,7 @@ namespace CaseNoroff.Controllers
             {
                 return NotFound();
             }
-            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
+            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
         }
 
         public List<Product> Product()
@@ -126,11 +126,7 @@ namespace CaseNoroff.Controllers
                 customerOrderViewModel.Order.OrderDate = DateTime.Now;
                 _db.Orders.Add(customerOrderViewModel.Order);
                 _db.SaveChanges();
-
-                customerOrderViewModel.DeliveryAddress.OrderId = customerOrderViewModel.Order.OrderId;
-                _db.DeliveryAddresses.Add(customerOrderViewModel.DeliveryAddress);
-                _db.SaveChanges();
-
+                
                 foreach (OrderItem orderItem in customerOrderViewModel.OrderItems)
                 {
                     orderItem.OrderId = customerOrderViewModel.Order.OrderId;
@@ -197,9 +193,9 @@ namespace CaseNoroff.Controllers
                                 productString +
                                 "<h2>Delivery address</h2>" +
                                 "<p>" + customerOrderViewModel.Customer.FirstName + " " + customerOrderViewModel.Customer.LastName + "</p>" +
-                                "<p>" + customerOrderViewModel.DeliveryAddress.StreetAddress + "</p>" +
-                                "<p>" + customerOrderViewModel.DeliveryAddress.PostalCode + " " + customerOrderViewModel.DeliveryAddress.City + "</p>" +
-                                "<p>" + customerOrderViewModel.DeliveryAddress.Country + "</p>" +
+                                "<p>" + customerOrderViewModel.Order.StreetAddress + "</p>" +
+                                "<p>" + customerOrderViewModel.Order.PostalCode + " " + customerOrderViewModel.Order.City + "</p>" +
+                                "<p>" + customerOrderViewModel.Order.Country + "</p>" +
                                 "<br>" +
                                 //"<h2>Order Confirmation Noroff Vipps</h2>" +
                           "</div>"

@@ -10,7 +10,6 @@ namespace CaseNoroff.ViewModels
     {
         public Customer Customer { get; set; }
         public Order Order { get; set; }
-        public DeliveryAddress DeliveryAddress { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
 }
