@@ -1,0 +1,61 @@
+﻿
+.addBtn {
+    background-color: #2F5D47;
+    color: white;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.modal {
+    border: 1px black solid;
+    border-radius: 7px;
+    width: 30%;
+    height: 97%;
+    background-color: white;
+    margin-left: 35%;
+    font-family: Andale Mono, monospace;
+}
+
+.modalItemPrice{
+    font-size: 17px;
+    margin-left: 235px;
+}
+
+.modalContent {
+    text-align: center;
+}
+
+.modalItemName {
+    font-size: 20px;
+}
+
+.modalText {
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+#modalExitBtn {
+    border: none;
+}
+
+.modalButtons {
+    display: flex;
+    flex-direction: row;
+    float: right;
+}
+
+.addModal {
+    border: 1px solid #D9D9D9;
+    border-radius: 7px;
+    background-color: #C3FFD7;
+    display: none;
+    height: 19px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.modalImage{
+    width: 250px;
+    height: 270px;
+}

@@ -12,16 +12,15 @@ export class Cart extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem('cartList') != 0) {
+        if (localStorage.getItem('cartList') !== 0) {
             this.setState({ itemList: JSON.parse(localStorage.getItem('cartList')) })
         }
     }
 
     removeItem = (item, event) => {
         let list = [...this.state.itemList];
-        let index = list.indexOf(event.target.value);
         for (let i = 0; i < list.length; i++) {
-            if (list[i] == item) {
+            if (list[i] === item) {
                 list.splice(i, 1)
             }
         }
@@ -38,11 +37,15 @@ export class Cart extends React.Component {
     }
 
     render() {
-        if (localStorage.getItem('cartList') == 0 || this.state.itemList.length == 0) {
+        if (localStorage.getItem('cartList') === 0 || this.state.itemList.length === 0) {
             return (
-                <div>
-                    <p>Nothing added to cart</p>
+                <div id='emptyCart'>
+                    <h2 className='cartTitle'>Cart</h2>
+                    <div>
+                        <p id= 'emptyText' >Nothing added to cart</p>
+                    </div>
                 </div>
+                
             )
         } else {
             const list = this.state.itemList.map(item => {
@@ -55,12 +58,12 @@ export class Cart extends React.Component {
 
             return (
                 <div>
-                    <h2 id='cartTitle'>Cart</h2>
+                    <h2 className='cartTitle'>Cart</h2>
                     <div id='cartContent'>
                         <ul id='cartContainer'>
                             {list}
                         </ul>
-                        <div id="checkout">
+                        <div id='checkout'>
                             <h3>Checkout</h3>
                             <p id='subTotal' ><strong>Sub-total:</strong> NOK {this.sumPrice()}.-</p>
                             <Button id='confirmBtn'>Confirm</Button>

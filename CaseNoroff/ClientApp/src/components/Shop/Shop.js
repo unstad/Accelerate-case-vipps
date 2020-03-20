@@ -1,21 +1,22 @@
 ﻿import React from 'react';
 import styles from './Shop.css';
 import Item from '../Item/Item.js';
-import { Link } from 'react-router-dom';
 
 export class Shop extends React.Component {
     constructor(props) {
         super(props);
+        this.addRef = React.createRef();
         this.state = {
             itemList: [],
             filteredItemList: [],
-            addedItems: JSON.parse(localStorage.getItem('cartList'))
+            addedItems: JSON.parse(localStorage.getItem('cartList')),
+            addModal: false
         };
     }
 
     async componentDidMount() {
         this.setState({itemList: [], filteredItemList: [] })
-        const api_url = `https://localhost:5001/ECommerce/Product`
+        const api_url = `https://localhost:44364/ECommerce/Product`
         try {
             const response = await fetch(api_url).then(resp => resp.json());
             let list = [...this.state.itemList];
@@ -61,6 +62,7 @@ export class Shop extends React.Component {
                     id='searchBar' placeholder='Search item'>
                 </input>
                 <ul id='itemList'>{items}</ul>
+                
             </div>
         )
     }
