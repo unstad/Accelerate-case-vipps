@@ -99,9 +99,14 @@ namespace CaseNoroff.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                var userIdFromMail = _db.Users.FirstOrDefault(u => u.Email == customerOrderViewModel.Customer.Email);
                 if (customerOrderViewModel.Customer.UserId == null && userId != null)
                 {
                     customerOrderViewModel.Customer.UserId = userId;
+                }
+                else if (customerOrderViewModel.Customer.UserId == null && userIdFromMail != null)
+                {
+                    customerOrderViewModel.Customer.UserId = userIdFromMail.Id;
                 }
 
 
@@ -152,7 +157,7 @@ namespace CaseNoroff.Controllers
                 }
                 else
                 {
-                    seeOrderOnline = "<p>Follow this <a href='https://localhost:5001/Identity/Account/Register?returnUrl=/authentication/login?id=" + customerOrderViewModel.Order.OrderId + "'>link</a> to register user, and view order online.</p>";
+                    seeOrderOnline = "<p>Follow this <a href='https://localhost:5001/Identity/Account/Register?returnUrl=/authentication/login&customerId=" + customerOrderViewModel.Customer.CustomerId + "'>link</a> to register user, and view order online.</p>";
                 }
 
 
@@ -205,7 +210,7 @@ namespace CaseNoroff.Controllers
                           "</div>"
                 };
                 mail.IsBodyHtml = true;
-                mail.To.Add(new MailAddress("jon.erik.ullvang@gmail.com"));
+                mail.To.Add(new MailAddress(customerOrderViewModel.Customer.Email));
                 // Smtp client
                 var client = new SmtpClient()
                 {
