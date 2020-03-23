@@ -4,17 +4,14 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
+import ItemModal from './ItemModal.js'
 
 export default class Item extends React.Component {
     constructor(props) {
         super(props);
         this.modalRef = React.createRef();
+        
         this.state = {
-            id: this.props.item.productId,
-            name: this.props.item.productName,
-            description: this.props.item.description,
-            price: this.props.item.price,
-            image: this.props.item.imgURL,
             //sizes: this.props.item.sizes,
             modal: false,
             dropdownOpen: false
@@ -27,23 +24,40 @@ export default class Item extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClick, false)
     }
-    hanldeClick = (e) => {
+    handleClick = (e) => {
         if (this.modalRef.contains(e.target)) {
+            console.log("inside")
             return;
         }
-        this.toggle();
+        this.hideModal();
     }
 
-    toggle = () => {
-        if (!this.state.modal) {
+    //toggle = () => {
+    //    console.log("toggle")
+    //    if (!this.state.modal) {
+    //        this.showModal();
+    //    } else {
+    //        this.hideModal();
+    //    }
+    //}
+
+    showAddModal = () => {
+
+    }
+
+    showModal = () => {
+        if (this.state.modal == true) {
+            return;
+        } else {
             const mod = this.modalRef;
             mod.style.display = 'block';
             this.setState({ modal: true })
-        } else {
-            const mod = this.modalRef;
-            mod.style.display = 'none';
-            this.setState({ modal: false })
-        }
+        }   
+    }
+    hideModal = () => {
+        const mod = this.modalRef;
+        mod.style.display = 'none';
+        this.setState({ modal: false })
     }
     toggleSize = () => {
         if (!this.state.dropdownOpen) {
@@ -60,37 +74,17 @@ export default class Item extends React.Component {
                 <DropdownItem key={size}>{size}</DropdownItem>
                 )
         })*/
+        const item = this.props.item;
         return (
             <div className='itemContainer'>
-                <Card onClick={() => this.toggle()}>
-                    <CardImg className='itemImage' top width="100%" src={this.state.image} alt={this.state.name} />
-                    <CardBody>
-                        <CardTitle>{this.state.name}</CardTitle>
-                        <CardSubtitle>price</CardSubtitle>
-                        <CardText>NOK {this.state.price},-</CardText>
+                <Card onClick={() => this.showModal()}>
+                    <CardImg className='itemImage' top width="100%" src={item.imgURL} alt={item.productName} />
+                    <CardBody className='itemText'>
+                        <CardTitle className='itemTitle'>{item.productName}</CardTitle>
+                        <CardText><strong>NOK {item.price},-</strong></CardText>
                     </CardBody>
                 </Card>
-                <div className='modal' ref={modalRef => this.modalRef = modalRef}>
-                    <button id='modalExitBtn' onClick={() => this.toggle()}>x</button>
-                    <div className='modalContent'>
-                        <h3>{this.state.name}</h3>
-                        <CardImg className='itemImage' top width="100%" src={this.state.image} alt={this.state.name} />
-                        <div className="modalText">
-                            <CardSubtitle>Price</CardSubtitle>
-                            <CardText>NOK {this.state.price},-</CardText>
-                            <CardSubtitle>Description</CardSubtitle>
-                            <CardText>{this.state.description}</CardText>
-                        </div>
-                        <footer className='modalButtons'>
-                            <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggleSize()}>
-                                <DropdownToggle caret>
-                                    Size
-                                </DropdownToggle>
-                            </Dropdown>
-                            <Button className='addBtn' onClick={this.props.buttonClick}>Add to cart</Button>
-                        </footer>
-                    </div>
-                </div>
+                <ItemModal thisRef={modalRef => this.modalRef = modalRef} item={item} addClick={this.props.buttonClick} exitClick={this.hideModal} />
             </div>
         )
     }

@@ -99,9 +99,14 @@ namespace CaseNoroff.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                var userIdFromMail = _db.Users.FirstOrDefault(u => u.Email == customerOrderViewModel.Customer.Email);
                 if (customerOrderViewModel.Customer.UserId == null && userId != null)
                 {
                     customerOrderViewModel.Customer.UserId = userId;
+                }
+                else if (customerOrderViewModel.Customer.UserId == null && userIdFromMail != null)
+                {
+                    customerOrderViewModel.Customer.UserId = userIdFromMail.Id;
                 }
 
 

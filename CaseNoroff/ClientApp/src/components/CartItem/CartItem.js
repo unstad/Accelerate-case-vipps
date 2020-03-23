@@ -29,7 +29,7 @@ export class CartItem extends React.Component {
             </div>*/
 
             <div className='cartContainer'>
-                <img className='cartItemImage' top width="100%" src={this.state.image} alt={this.state.name} />
+                <img className='cartItemImage' src={this.state.image} alt={this.state.name} />
                 <div className='cartItemText'>
                     <div className='cartItemName'>
                         <h6>{this.state.name}</h6>
@@ -37,7 +37,7 @@ export class CartItem extends React.Component {
                     <div className='cartItemPrice'>
                         <h5>price</h5>
                         <p>NOK {this.state.price},-</p>
-                        <Button className='delBtn' onClick={this.props.buttonClick}>Remove from cart</Button>
+                        <Button className='delBtn' onClick={this.props.buttonClick}>Remove</Button>
                     </div>
                 </div>
             </div>
