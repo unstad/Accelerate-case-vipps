@@ -1,15 +1,20 @@
 ﻿import React from 'react';
 import styles from './Shop.css';
 import Item from '../Item/Item.js';
-import { Link } from 'react-router-dom';
+import authService from '../api-authorization/AuthorizeService';
 
 export class Shop extends React.Component {
     constructor(props) {
         super(props);
+        this.addRef = React.createRef();
         this.state = {
             itemList: [],
             filteredItemList: [],
-            addedItems: JSON.parse(localStorage.getItem('cartList'))
+            addedItems: JSON.parse(localStorage.getItem('cartList')),
+            addModal: false,
+
+            isAuthenticated: false,
+            userName: null,
         };
     }
 
@@ -27,6 +32,17 @@ export class Shop extends React.Component {
             console.error(e);
         }
 
+        this.populateState();
+
+    }
+
+    async populateState() {
+        const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+        this.setState({
+            isAuthenticated,
+            userName: user && user.name
+        });
+        console.log(user)
     }
 
     filterSearch = () => {
@@ -61,6 +77,7 @@ export class Shop extends React.Component {
                     id='searchBar' placeholder='Search item'>
                 </input>
                 <ul id='itemList'>{items}</ul>
+                
             </div>
         )
     }

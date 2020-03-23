@@ -51,6 +51,8 @@
     <Compile Remove="Data\Migrations\20200313105243_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200319100355_addedDeliveryAddressClass.cs" />
     <Compile Remove="Data\Migrations\20200319100355_addedDeliveryAddressClass.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200320143706_test.cs" />
+    <Compile Remove="Data\Migrations\20200320143706_test.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\iconCart.png" />
