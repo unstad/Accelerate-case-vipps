@@ -15,7 +15,7 @@ export class Shop extends React.Component {
 
     async componentDidMount() {
         this.setState({itemList: [], filteredItemList: [] })
-        const api_url = `https://localhost:5001/ECommerce/Product`
+        const api_url = `https://localhost:44364/ECommerce/Product`
         try {
             const response = await fetch(api_url).then(resp => resp.json());
             let list = [...this.state.itemList];
