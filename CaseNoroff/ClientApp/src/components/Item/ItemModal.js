@@ -40,7 +40,7 @@ export default class ItemModal extends React.Component {
                     <h3 className = 'modalItemName' >{item.productName}</h3>
                     <CardImg className='modalImage' top width="100%" src={item.imgURL} alt={item.productName} />
                     <div className="modalText">
-                        <CardSubtitle>Description</CardSubtitle>
+                        <CardSubtitle><strong>Description</strong></CardSubtitle>
                         <CardText>{item.description}</CardText>
                         <CardText className='modalItemPrice'><strong>NOK {item.price},-</strong></CardText>
                     </div>
