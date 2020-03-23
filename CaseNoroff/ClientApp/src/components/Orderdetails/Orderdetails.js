@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import authService from '../api-authorization/AuthorizeService';
 
 export class Orderdetails extends React.Component {
 	constructor(props) {
@@ -11,6 +12,10 @@ export class Orderdetails extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	componentDidMount() {
+		this.getCustomerDetails();
+	}
+	
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.handleValidation()) {
@@ -31,9 +36,14 @@ export class Orderdetails extends React.Component {
 		}
 
 		if (typeof fields["firstName"] !== "undefined") {
-			if (!fields["firstName"].match(/^[a-zA-Z]+[-{1}]?[a-zA-Z]+$/)) {
+			if (sessionStorage.getItem('firstName').length != 0) {
+				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+					formIsValid = false;
+					errors["firstName"] = "Only letters.";
+				}
+			} else {
 				formIsValid = false;
-				errors["firstName"] = "Only letters.";
+				errors["firstName"] = "First name is required.";
 			}
 		}
 
@@ -43,10 +53,15 @@ export class Orderdetails extends React.Component {
 		}
 
 		if (typeof fields["lastName"] !== "undefined") {
-			if (!fields["lastName"].match(/^[a-zA-Z]+[-{1}]?[a-zA-Z]+$/)) {
+			if (sessionStorage.getItem('firstName').length != 0) {
+				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+					formIsValid = false;
+					errors["lastName"] = "Only letters.";
+				}
+			} else {
 				formIsValid = false;
-				errors["lastName"] = "Only letters.";
-			}
+				errors["lasttName"] = "Last name is required.";
+			}			
 		}
 
 		if (!fields["email"]) {
@@ -58,10 +73,16 @@ export class Orderdetails extends React.Component {
 			let lastAtPos = fields["email"].lastIndexOf('@');
 			let lastDotPos = fields["email"].lastIndexOf('.');
 
-			if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@')
-				=== -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+			if (sessionStorage.getItem('email').length != 0) {
+				if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@')
+					=== -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+					formIsValid = false;
+					errors["email"] = "Email is not valid.";
+				}
+				
+			} else {
 				formIsValid = false;
-				errors["email"] = "Email is not valid.";
+				errors["email"] = "Email is required.";
 			}
 		}
 
@@ -71,9 +92,14 @@ export class Orderdetails extends React.Component {
 		}
 
 		if (typeof fields["phoneNumber"] !== "undefined") {
-			if (!fields["phoneNumber"].match(/^[+{1}]?[0-9]?[\s{1}]?[0-9]+$/)) {
+			if (sessionStorage.getItem('phoneNumber').length != 0) {
+				if (!fields["phoneNumber"].match(/^[+{1}]?[0-9]?[\s{1}]?[0-9]+$/)) {
+					formIsValid = false;
+					errors["phoneNumber"] = "Phone number is not valid.";
+				}
+			} else {
 				formIsValid = false;
-				errors["phoneNumber"] = "Phone number is not valid.";
+				errors["phoneNumber"] = "Phone number is required.";
 			}
 		}
 
@@ -86,11 +112,16 @@ export class Orderdetails extends React.Component {
 			formIsValid = false;
 			errors["country"] = "Country is required.";
 		}
-		
+
 		if (typeof fields["country"] !== "undefined") {
-			if (!fields["country"].match(/^[a-zA-Z]+$/)) {
+			if (sessionStorage.getItem('country').length != 0) {
+				if (!fields["country"].match(/^[a-zA-ZÆØÅæøå]+$/)) {
+					formIsValid = false;
+					errors["country"] = "Phone number is not valid.";
+				}
+			} else {
 				formIsValid = false;
-				errors["country"] = "Phone number is not valid.";
+				errors["country"] = "Country is required.";
 			}
 		}
 
@@ -98,11 +129,16 @@ export class Orderdetails extends React.Component {
 			formIsValid = false;
 			errors["city"] = "City is required.";
 		}
-		
+
 		if (typeof fields["city"] !== "undefined") {
-			if (!fields["city"].match(/^[a-zA-Z]+$/)) {
+			if (sessionStorage.getItem('city').length != 0) {
+				if (!fields["city"].match(/^[a-zA-ZÆØÅæøå]+$/)) {
+					formIsValid = false;
+					errors["city"] = "City is not valid.";
+				}
+			} else {
 				formIsValid = false;
-				errors["city"] = "City is not valid.";
+				errors["city"] = "City is required.";
 			}
 		}
 
@@ -110,11 +146,16 @@ export class Orderdetails extends React.Component {
 			formIsValid = false;
 			errors["zipCode"] = "Zip code is required.";
 		}
-		
+
 		if (typeof fields["zipCode"] !== "undefined") {
-			if (!fields["zipCode"].match(/^[0-9]+$/)) {
+			if (sessionStorage.getItem('zipCode').length != 0) {
+				if (!fields["zipCode"].match(/^[0-9]+$/)) {
+					formIsValid = false;
+					errors["zipCode"] = "Zip code is not valid.";
+				}
+			} else {
 				formIsValid = false;
-				errors["zipCode"] = "Zip code is not valid.";
+				errors["zipCode"] = "Zip code is required.";
 			}
 		}
 
@@ -138,47 +179,90 @@ export class Orderdetails extends React.Component {
 				<Form onSubmit={this.handleSubmit}>
 					<FormGroup>
 						<Label for="firstName">First name</Label>
-						<Input type="text" name="firstName" id="firstName" maxLength="25" onChange={this.handleChange.bind(this, "firstName")} required/>
+						<Input type="text" name="firstName" id="firstName" maxLength="25"
+							   onChange={this.handleChange.bind(this, "firstName")}
+							   value={sessionStorage.getItem('firstName')} required/>
 						<span style={{color: "red"}}>{this.state.errors["firstName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="lastName">Last name</Label>
-						<Input type="text" name="lastName" id="lastName" maxLength="25" onChange={this.handleChange.bind(this, "lastName")} required/>
+						<Input type="text" name="lastName" id="lastName" maxLength="25"
+							   onChange={this.handleChange.bind(this, "lastName")}
+							   value={sessionStorage.getItem('lastName')} required/>
 						<span style={{color: "red"}}>{this.state.errors["lastName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="email">Email address</Label>
-						<Input type="email" name="email" id="email" maxLength="50" onChange={this.handleChange.bind(this, "email")} required/>
+						<Input type="email" name="email" id="email" maxLength="50"
+							   onChange={this.handleChange.bind(this, "email")}
+							   value={sessionStorage.getItem('email')} required/>
 						<span style={{color: "red"}}>{this.state.errors["email"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>
-						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20" onChange={this.handleChange.bind(this, "phoneNumber")} required/>
+						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20"
+							   onChange={this.handleChange.bind(this, "phoneNumber")}
+							   value={sessionStorage.getItem('phoneNumber')} required/>
 						<span style={{color: "red"}}>{this.state.errors["phoneNumber"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="address">Address</Label>
-						<Input type="text" name="address" id="address" maxLength="50" onChange={this.handleChange.bind(this, "address")} required/>
+						<Input type="text" name="address" id="address" maxLength="50"
+							   onChange={this.handleChange.bind(this, "address")}
+							   value={sessionStorage.getItem('address')} required/>
 						<span style={{color: "red"}}>{this.state.errors["address"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="country">Country</Label>
-						<Input type="text" name="country" id="country" maxLength="50" onChange={this.handleChange.bind(this, "country")} required/>
+						<Input type="text" name="country" id="country" maxLength="50"
+							   onChange={this.handleChange.bind(this, "country")}
+							   value={sessionStorage.getItem('country')} required/>
 						<span style={{color: "red"}}>{this.state.errors["country"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="city">City</Label>
-						<Input type="text" name="city" id="city" maxLength="50" onChange={this.handleChange.bind(this, "city")} required/>
+						<Input type="text" name="city" id="city" maxLength="50"
+							   onChange={this.handleChange.bind(this, "city")}
+							   value={sessionStorage.getItem('city')} required/>
 						<span style={{color: "red"}}>{this.state.errors["city"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="zipCode">Zip code</Label>
-						<Input type="text" name="zipCode" id="zipCode" maxLength="50" onChange={this.handleChange.bind(this, "zipCode")} required/>
+						<Input type="text" name="zipCode" id="zipCode" maxLength="50"
+							   onChange={this.handleChange.bind(this, "zipCode")}
+							   value={sessionStorage.getItem('zipCode')} required/>
 						<span style={{color: "red"}}>{this.state.errors["zipCode"]}</span>
 					</FormGroup>
 					<Button type="submit" color="primary" size="lg" block onClick={this.handleSubmit}>Continue to payment</Button>
 				</Form>
 			</div>
 		)
+	}
+
+	async getCustomerDetails() {
+		const token = await authService.getAccessToken();
+		const response = await fetch('ecommerce/customer', {
+			headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+		});
+		const data = await response.json();
+		if (data.firstName != null) sessionStorage.setItem('firstName', data.firstName);
+		if (data.lastName != null) sessionStorage.setItem('lastName', data.lastName);
+		if (data.email != null) sessionStorage.setItem('email', data.email);
+		if (data.phone != null) sessionStorage.setItem('phoneNumber', data.phone);
+		if (data.streetAddress != null) sessionStorage.setItem('address', data.streetAddress);
+		if (data.country != null) sessionStorage.setItem('country', data.country);
+		if (data.city != null) sessionStorage.setItem('city', data.city);
+		if (data.postalCode != null) sessionStorage.setItem('zipCode', data.postalCode);
+
+		let fields = this.state.fields;
+		fields['firstName'] = sessionStorage.getItem('firstName');
+		fields['lastName'] = sessionStorage.getItem('lastName');
+		fields['email'] = sessionStorage.getItem('email');
+		fields['phoneNumber'] = sessionStorage.getItem('phoneNumber');
+		fields['address'] = sessionStorage.getItem('address');
+		fields['country'] = sessionStorage.getItem('country');
+		fields['city'] = sessionStorage.getItem('city');
+		fields['zipCode'] = sessionStorage.getItem('zipCode');
+		this.setState({fields})
 	}
 }
