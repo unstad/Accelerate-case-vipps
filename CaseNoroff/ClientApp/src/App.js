@@ -10,6 +10,7 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import { OrderHistory } from './components/OrderHistory/OrderHistory.js'
+import { Privacy } from './components/Privacy/Privacy.js';
 
 import './custom.css'
 
@@ -26,6 +27,7 @@ export default class App extends Component {
         <Route path='/orderHistory' component={OrderHistory} />
         <AuthorizeRoute path='/fetch-data' component={FetchData} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+        <Route path='/Privacy' component={Privacy} />
       </Layout>
     );
   }
