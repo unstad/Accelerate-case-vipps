@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -75,7 +76,9 @@ namespace CaseNoroff
 			services.AddControllersWithViews().AddNewtonsoftJson(options =>
 																 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 																 );
-
+			services.AddTransient<IEmailSender, EmailSender>();
+			services.Configure<AuthMessageSenderOptions>(Configuration);
+	
 			services.AddRazorPages();
 
 			// In production, the React files will be served from this directory
