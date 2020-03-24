@@ -4,7 +4,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 
-namespace WebPWrecover.Services
+namespace CaseNoroff.Services
 {
     public class EmailSender : IEmailSender
     {
@@ -22,7 +22,7 @@ namespace WebPWrecover.Services
 
         public Task Execute(string apiKey, string subject, string message, string email)
         {
-            var client = new SendGridClient(apiKey);
+            var client = new SendGridClient("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");
             var msg = new SendGridMessage()
             {
                 From = new EmailAddress("noroffvipps@gmail.com", Options.SendGridUser),
