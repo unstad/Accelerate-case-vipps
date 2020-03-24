@@ -18,7 +18,6 @@ export default class ItemModal extends React.Component {
             this.hideAddModal(), 1500
         )
     }
-
     hideAddModal = () => {
         this.addRef.style.display = 'none'
     }
@@ -42,10 +41,13 @@ export default class ItemModal extends React.Component {
                     <div className="modalText">
                         <CardSubtitle><strong>Description</strong></CardSubtitle>
                         <CardText>{item.description}</CardText>
-                        <CardText className='modalItemPrice'><strong>NOK {item.price},-</strong></CardText>
+                        
                     </div>
-                    <footer className='modalButtons'>
-                        <Button className='addBtn' onClick={this.addItem}>Add to cart</Button>
+                    <footer className='modalFoot'>
+                        <CardText className='modalItemPrice'><strong>NOK {item.price},-</strong></CardText>
+                        <div className ='modalButtons'>
+                            <Button className='addBtn' onClick={this.addItem}>Add to cart</Button>
+                        </div>
                     </footer>
                 </div>
                 

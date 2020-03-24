@@ -77,7 +77,6 @@ export class Shop extends React.Component {
                     id='searchBar' placeholder='Search item'>
                 </input>
                 <ul id='itemList'>{items}</ul>
-                
             </div>
         )
     }

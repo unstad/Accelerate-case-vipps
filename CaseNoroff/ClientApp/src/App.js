@@ -9,6 +9,7 @@ import { Counter } from './components/Counter';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
+import { OrderHistory } from './components/OrderHistory/OrderHistory.js'
 
 import './custom.css'
 
@@ -22,6 +23,7 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/cart' component={Cart} />
 		<Route path='/order' component={Orderdetails} />
+        <Route path='/orderHistory' component={OrderHistory} />
         <AuthorizeRoute path='/fetch-data' component={FetchData} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>
