@@ -44,6 +44,8 @@ namespace CaseNoroff
 				options.Password.RequiredLength = 8;
 				options.Password.RequiredUniqueChars = 0;
 
+				options.SignIn.RequireConfirmedEmail = true;
+
 				// Lockout settings.
 				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 				options.Lockout.MaxFailedAccessAttempts = 5;
