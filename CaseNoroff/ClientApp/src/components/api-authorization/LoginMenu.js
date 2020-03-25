@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 import iconUser from '../../Assets/iconUser.png';
+import orderHistory from '../OrderHistory/OrderHistory.js';
 
 
 export class LoginMenu extends Component {
@@ -80,7 +81,7 @@ export class LoginMenu extends Component {
                         <DropdownItem header> {userName} </DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem tag={Link} className="text-dark" to={profilePath}>Profile</DropdownItem>
-                        <DropdownItem tag={Link} className="text-dark" to="/History">Purchase History</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to='/orderHistory'>Purchase History</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem tag={Link} className="text-dark" to={logoutPath}>Logout</DropdownItem>
                     </DropdownMenu>)}

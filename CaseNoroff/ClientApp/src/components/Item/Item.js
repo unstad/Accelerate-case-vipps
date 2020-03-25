@@ -26,7 +26,6 @@ export default class Item extends React.Component {
     }
     handleClick = (e) => {
         if (this.modalRef.contains(e.target)) {
-            console.log("inside")
             return;
         }
         this.hideModal();
