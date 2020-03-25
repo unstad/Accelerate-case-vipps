@@ -1,0 +1,19 @@
+﻿.ohItem{
+    list-style-type: none;
+}
+
+#orderHistoryList{
+    display: flex;
+    flex-direction: column;
+}
+.orderHLoading {
+    font-family: Andale Mono, monospace;
+}
+#historyBody {
+    text-align: center;
+    font-family: Andale Mono, monospace;
+}
+
+.orderLink:hover{
+    text-decoration: none;
+}

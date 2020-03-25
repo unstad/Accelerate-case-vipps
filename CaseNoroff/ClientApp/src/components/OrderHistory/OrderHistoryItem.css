@@ -1,0 +1,27 @@
+﻿.historyItem{
+    border: 1px solid black;
+    border-radius: 7px;
+    margin: 10px;
+    text-align: left;
+}
+
+.historyItem:hover{
+    box-shadow: 0 5px 7px 0 grey;
+}
+
+.historyImg{
+    width: 250px;
+    margin: 1%;
+    border-radius: 7px;
+}
+
+.historyItemText {
+    margin-left: 1%;
+    color: black;
+    text-decoration: none;
+    font-family: Andale Mono, monospace;
+}
+
+.historyItemText:hover{
+    text-decoration: none;
+}

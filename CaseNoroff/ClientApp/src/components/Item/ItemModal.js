@@ -19,7 +19,11 @@ export default class ItemModal extends React.Component {
         )
     }
     hideAddModal = () => {
-        this.addRef.style.display = 'none'
+        if (this.addRef == null) {
+            return;
+        } else {
+            this.addRef.style.display = 'none'
+        }
     }
 
     addItem = () => {
