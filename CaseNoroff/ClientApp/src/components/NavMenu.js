@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
@@ -34,14 +34,18 @@ export class NavMenu extends Component {
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow">
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/">Store</NavLink>
+                                    <Button style={{backgroundColor: 'white', border: 'none'}}>
+                                        <NavLink tag={Link} className="text-dark" to="/">Store</NavLink>
+                                    </Button>
                                 </NavItem>
                                 <LoginMenu>
                                 </LoginMenu>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/cart">
-                                        <img className="navImg" src={iconCart} alt="Cart" />
-                                    </NavLink>
+                                    <Button style={{ backgroundColor: 'white', border: 'none', paddingBottom: '6px' }}>
+                                        <NavLink tag={Link} className="text-dark" to="/cart">
+                                            <img className="navImg" src={iconCart} alt="Cart" />
+                                        </NavLink>
+                                    </Button>
                                 </NavItem>
                             </ul>
                         </Collapse>
