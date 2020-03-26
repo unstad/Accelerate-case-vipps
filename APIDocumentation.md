@@ -1,44 +1,18 @@
-<h1>Show Customer info</h1>
-Returns json data about a single customer.
+<h1>Customer info</h1>
+<p>Returns json data about logged in customer.</p>
 
-Endpoint Method:
-GET
+<h2>Endpoint Method:</h2>
+<p>GET</p>
 
-Endpoint path
+<h2>Endpoint path</h2>
+<p>CommerceController/Customer</p>
 
-/ECommerceController/Customer
+<h2>Required and accepted headers</h2>
 
+<h2>Accepted parameters</h2>
 
+<h2>Expected changes to the data</h2>
 
-URL Params
+<h2>Possible responses and their meanings</h2>
 
-Required:
-
-id=[integer]
-
-Data Params
-
-None
-
-Success Response:
-
-Code: 200
-Content: { id : 12, name : "Michael Bloom" }
-Error Response:
-
-Code: 404 NOT FOUND
-Content: { error : "User doesn't exist" }
-OR
-
-Code: 401 UNAUTHORIZED
-Content: { error : "You are unauthorized to make this request." }
-Sample Call:
-
-  $.ajax({
-    url: "/users/1",
-    dataType: "json",
-    type : "GET",
-    success : function(r) {
-      console.log(r);
-    }
-  });
+<h2>Possible error cases with explanations</h2>
