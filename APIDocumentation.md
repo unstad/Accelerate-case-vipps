@@ -1,18 +1,26 @@
-<h1>Customer info</h1>
+<h1>API Documentation</h1>
+
+
+<h2>Get customer info</h2>
 <p>Returns json data about logged in customer.</p>
 
-<h2>Endpoint Method:</h2>
+<h3>Endpoint Method:</h3>
 <p>GET</p>
 
-<h2>Endpoint path</h2>
+<h3>Endpoint path</h3>
 <p>CommerceController/Customer</p>
 
-<h2>Required and accepted headers</h2>
+<h3>Required and accepted headers</h3>
+<p>Authorization headers are required.</p>
 
-<h2>Accepted parameters</h2>
+<h3>Accepted parameters</h3>
+<p>None</p>
 
-<h2>Expected changes to the data</h2>
+<h3>Expected changes to the data</h3>
+<p>None</p>
 
-<h2>Possible responses and their meanings</h2>
+<h3>Possible responses and their meanings</h3>
+<p>If a user is logged in, it will return customer info in json, if the logged in user don't have customer info it will not return anything.<br />If there is no authorization in the header it will return "404 Not Found"</p>
 
-<h2>Possible error cases with explanations</h2>
+<h3>Possible error cases with explanations</h3>
+<p></p>
