@@ -6,7 +6,7 @@
     text-align: left;
 }
 .ohOrderText {
-    margin-left: 3.5%;
+    margin-left: 4.5%;
     font-size: 20px;
 }
 .conItemText{
@@ -17,6 +17,7 @@
 }
 .ohOrderUL{
     list-style-type: none;
+    width:96%;
 }
 .ohItemLI {
     border: 1px black solid;
@@ -31,4 +32,37 @@
     width: 250px;
     margin: 1%;
     border-radius: 7px;
+}
+
+@media(max-width: 768px){
+    .ohOrderUL {
+        width: 94.5%
+    }
+    .ohOrderText{
+        margin-left: 6.5%;
+    }
+}
+
+@media(max-width: 414px){
+    .ohOrderUL {
+        width: 98%;
+        margin-left: -15px;
+    }
+    .ohOrderText {
+        margin-left: 7%;
+    }
+}
+
+@media(max-width: 414px) {
+    .ohOrderUL {
+        width: 100%;
+        margin-left: -19px;
+    }
+
+    .ohOrderText {
+        margin-left: 8%;
+    }
+    .ohOrderImg{
+        width: 150px;
+    }
 }

@@ -1,20 +1,16 @@
 ﻿.historyItem{
     border: 1px solid black;
     border-radius: 7px;
-    margin: 10px;
+    margin: auto;
+    margin-bottom: 3%;
+    margin-top: 3%;
     text-align: left;
+    width: 80%;
 }
 
 .historyItem:hover{
     box-shadow: 0 5px 7px 0 grey;
 }
-
-.historyImg{
-    width: 250px;
-    margin: 1%;
-    border-radius: 7px;
-}
-
 .historyItemText {
     margin-left: 1%;
     color: black;
@@ -22,6 +18,47 @@
     font-family: Andale Mono, monospace;
 }
 
-.historyItemText:hover{
+.historyItemText:hover {
     text-decoration: none;
+}
+.historyImg{
+    width: 250px;
+    border-radius: 7px;
+}
+
+.historyImgContainer{
+    margin-left: -35px;
+    margin-bottom: 10px;
+}
+.orderHistoryImgSet{
+    display: flex;
+    flex-direction: row;
+}
+@media (max-width: 414px){
+    .historyItem{
+        margin-left: 18px;
+    }
+    .orderDate{
+        font-size: 22px;
+    }
+    .historyImg{
+        width:170px;
+    }
+}
+
+@media (max-width: 375px){
+    .historyItem{
+        width: 90%;
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 320px){
+    .historyItem{
+        width: 97%;
+        margin-left: -15px;
+    }
+    .historyImg{
+        width: 100px;
+    }
 }
