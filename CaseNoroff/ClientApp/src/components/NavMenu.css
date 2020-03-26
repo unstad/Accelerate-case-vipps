@@ -17,13 +17,14 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-
 .navImg {
     height: 30px;
 }
 
+
 .toggler {
     background-color: white;
+    margin-top: 7px;
     border: none;
 }
 
@@ -31,6 +32,7 @@ html {
     background-color: white;
     border: none;
 }
+
 
 .drooopdownMenu:hover {
 }

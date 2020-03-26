@@ -46,7 +46,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown" id="drop" onmouseleave="closeNav()" onmouseenter="openNav()" >
-            <button onclick="ddToggler()" class="btn btn-secondary" style="background-color: white; border: none;" data-toggle="dropdown" href="#" type="button">
+            <button onclick="ddToggler()" class="btn btn-secondary" style="background-color: white; border: none; margin-top: 7px;" data-toggle="dropdown" href="#" type="button">
                 <img className="navImg" src=@Url.Content("~/iconUser.png") alt="User" style="height: 30px; margin: 0px;" />
             </button>
             <div id="sidebar-menu" class="dropdown-menu show" x-placement="bottom-start" style="display:none; position:absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
@@ -64,7 +64,7 @@
     else
     {
         <li class="nav-item dropdown" id="drop" onmouseleave="closeNav()" onmouseenter="openNav()">
-            <button onclick="ddToggler()" class="btn btn-secondary" style="background-color: white; border: none;" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="true">
+            <button onclick="ddToggler()" class="btn btn-secondary" style="background-color: white; border: none; margin-top: 7px;" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="true">
                 <img className="navImg" src=@Url.Content("~/iconUser.png") alt="User" style="height: 30px;" />
             </button>
             <div id="sidebar-menu" class="dropdown-menu show" x-placement="bottom-start" style="display:none; position:absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">

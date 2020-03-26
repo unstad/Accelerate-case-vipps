@@ -5,6 +5,7 @@ import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 import iconUser from '../../Assets/iconUser.png';
 import orderHistory from '../OrderHistory/OrderHistory.js';
+import styles from './LoginMenu.css';
 
 
 export class LoginMenu extends Component {
