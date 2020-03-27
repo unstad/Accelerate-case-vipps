@@ -29,7 +29,7 @@ namespace CaseNoroff.Controllers
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
             return _db.Customers.FirstOrDefault(c => c.UserId == userId);
         }
@@ -59,6 +59,7 @@ namespace CaseNoroff.Controllers
                     _db.SaveChanges();
                     return customer;
                 }
+                return Unauthorized();
             }
             return NotFound();
         }
@@ -70,7 +71,7 @@ namespace CaseNoroff.Controllers
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
             return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
@@ -82,7 +83,7 @@ namespace CaseNoroff.Controllers
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
             return _db.Orders.Where(o => o.OrderId == order_id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == order_id);
         }
