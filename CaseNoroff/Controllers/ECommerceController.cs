@@ -31,7 +31,16 @@ namespace CaseNoroff.Controllers
             {
                 return Unauthorized();
             }
-            return _db.Customers.FirstOrDefault(c => c.UserId == userId);
+            var customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
+
+            if(customer == null)
+            {
+                var email = _db.Users.First(u => u.Id == userId);
+                customer = new Customer();
+                customer.Email = email.ToString();
+            }
+
+            return customer;
         }
 
         //Add new customer, update if already exists. Should be used in profilpage, or new order if logged in
