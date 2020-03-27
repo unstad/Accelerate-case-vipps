@@ -37,7 +37,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["firstName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
+				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
 					formIsValid = false;
 					errors["firstName"] = "Only letters.";
 				}
@@ -54,7 +54,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["lastName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
+				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
 					formIsValid = false;
 					errors["lastName"] = "Only letters.";
 				}
