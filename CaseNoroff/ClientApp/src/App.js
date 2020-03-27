@@ -12,6 +12,7 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 import { OrderHistory } from './components/OrderHistory/OrderHistory.js';
 import { Privacy } from './components/Privacy/Privacy.js';
 import { OrderHOrder } from './components/OrderHistory/OrderHOrder.js';
+import { Profile } from './components/Profile/Profile.js';
 
 import './custom.css'
 
@@ -27,6 +28,7 @@ export default class App extends Component {
         <Route path='/order' component={Orderdetails} />
         <Route path='/orderHistory/order/:orderID' component={OrderHOrder} />
         <Route exact path='/orderHistory' component={OrderHistory} />
+        <Route exact path='/Profile' component={Profile} />
         
         <AuthorizeRoute path='/fetch-data' component={FetchData} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
