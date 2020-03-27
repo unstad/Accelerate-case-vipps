@@ -13,6 +13,7 @@ import { OrderHistory } from './components/OrderHistory/OrderHistory.js';
 import { Privacy } from './components/Privacy/Privacy.js';
 import { OrderHOrder } from './components/OrderHistory/OrderHOrder.js';
 import { Profile } from './components/Profile/Profile.js';
+import { ProfileConfirmation } from './components/Profile/ProfileConfirmation.js';
 
 import './custom.css'
 
@@ -27,6 +28,7 @@ export default class App extends Component {
         <Route path='/cart' component={Cart} />
         <Route path='/order' component={Orderdetails} />
         <Route exact path='/Profile' component={Profile} />
+        <Route exact path='/ProfileConfirmation' component={ProfileConfirmation} />
         <AuthorizeRoute path='/orderHistory/order/:orderID' component={OrderHOrder} />
         <AuthorizeRoute exact path='/orderHistory' component={OrderHistory} />
         

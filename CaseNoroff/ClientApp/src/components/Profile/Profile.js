@@ -184,56 +184,56 @@ export class Profile extends React.Component {
 						<Label for="firstName">First name</Label>
 						<Input type="text" name="firstName" id="firstName" maxLength="25"
 							onChange={this.handleChange.bind(this, "firstName")}
-							value={this.state.fields.firstName} required />
+							value={this.state.fields.firstName || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["firstName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="lastName">Last name</Label>
 						<Input type="text" name="lastName" id="lastName" maxLength="25"
 							onChange={this.handleChange.bind(this, "lastName")}
-							value={this.state.fields.lastName} required />
+							value={this.state.fields.lastName ||""} required />
 						<span style={{ color: "red" }}>{this.state.errors["lastName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="email">Email address</Label>
 						<Input type="email" name="email" id="email" maxLength="50"
 							onChange={this.handleChange.bind(this, "email")}
-							value={this.state.fields.email} required />
+							value={this.state.fields.email || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>
 						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20"
 							onChange={this.handleChange.bind(this, "phoneNumber")}
-							value={this.state.fields.phoneNumber} required />
+							value={this.state.fields.phoneNumber || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["phoneNumber"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="address">Address</Label>
 						<Input type="text" name="address" id="address" maxLength="50"
 							onChange={this.handleChange.bind(this, "address")}
-							value={this.state.fields.address} required />
+							value={this.state.fields.address || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["address"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="country">Country</Label>
 						<Input type="text" name="country" id="country" maxLength="50"
 							onChange={this.handleChange.bind(this, "country")}
-							value={this.state.fields.country} required />
+							value={this.state.fields.country || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["country"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="city">City</Label>
 						<Input type="text" name="city" id="city" maxLength="50"
 							onChange={this.handleChange.bind(this, "city")}
-							value={this.state.fields.city} required />
+							value={this.state.fields.city || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["city"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="zipCode">Zip code</Label>
 						<Input type="text" name="zipCode" id="zipCode" maxLength="50"
 							onChange={this.handleChange.bind(this, "zipCode")}
-							value={this.state.fields.zipCode} required />
+							value={this.state.fields.zipCode || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["zipCode"]}</span>
 					</FormGroup>
 					<Button type="submit" color="primary" size="lg" block onClick={this.handleSubmit}>Save Changes</Button>
@@ -249,6 +249,7 @@ export class Profile extends React.Component {
 			const response = await fetch('ecommerce/customer', {
 				headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
 			});
+
 			const data = await response.json();
 			if (data.firstName != null) {
 				sessionStorage.setItem('firstName', data.firstName);
@@ -312,30 +313,40 @@ export class Profile extends React.Component {
 	}
 
 	async postCustomer() {
-	/*	const token = await authService.getAccessToken();
+		const token = await authService.getAccessToken();
+
 		let fields = this.state.fields;
+
+		let head = !token ? {} : {
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json'
+		}
 		const requestOptions = {
 			method: 'POST',
-			headers: !token ? {} : { 'Authorization': `Bearer ${token}` },
+			headers: head,
 			body: JSON.stringify({
-				"email": fields['email'],
-				"firstName": fields['firstName'],
-				"lastName": fields['lastName'],
-				"streetAddress": fields['address'],
-				"city": fields['city'],
-				"postalCode": fields['zipCode'],
-				"country": fields['county'],
-				"phone": fields['phoneNumber']
+				"email": sessionStorage.getItem('email'),
+				"firstName": sessionStorage.getItem('firstName'),
+				"lastName": sessionStorage.getItem('lastName'),
+				"streetAddress": sessionStorage.getItem('address'),
+				"city": sessionStorage.getItem('city'),
+				"postalCode": sessionStorage.getItem('zipCode'),
+				"country": sessionStorage.getItem('country'),
+				"phone": sessionStorage.getItem('phoneNumber')
 			})
 		};
 		if (token) {
-			const response = await fetch('ecommerce/customer', requestOptions);
-			const data = await response.json();
 			console.log(fields);
-		}*/
-		let fields = this.state.fields;
-
-		console.log(fields);
+			const response = await fetch('ecommerce/customer', requestOptions).then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+					console.log("hei")
+				}
+				return response.blob();
+			});
+			console.log(fields);
+			this.props.history.push("/ProfileConfirmation");
+		}
 
 	}
 }
