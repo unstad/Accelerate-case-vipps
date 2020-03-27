@@ -72,7 +72,7 @@ namespace CaseNoroff.Controllers
             }
             return NotFound();
         }
-
+        [HttpGet]
         public ActionResult<List<Order>> Order()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
