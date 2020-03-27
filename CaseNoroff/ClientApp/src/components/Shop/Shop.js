@@ -10,7 +10,7 @@ export class Shop extends React.Component {
         this.state = {
             itemList: [],
             filteredItemList: [],
-            addedItems: JSON.parse(localStorage.getItem('cartList')),
+            addedItems: JSON.parse(sessionStorage.getItem('cartList')),
             addModal: false,
 
             isAuthenticated: false,
@@ -52,12 +52,12 @@ export class Shop extends React.Component {
 
     addItem = (item, event) => {
         let list = []
-        if (localStorage.getItem('cartList') != null) {
+        if (sessionStorage.getItem('cartList') != null) {
             list = [...this.state.addedItems];
         }
         list.push(item);
         this.setState({ addedItems: list });
-        localStorage.setItem('cartList', JSON.stringify(list));
+        sessionStorage.setItem('cartList', JSON.stringify(list));
     }
 
     render() {

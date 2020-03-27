@@ -12,8 +12,8 @@ export class Cart extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem('cartList') !== 0) {
-            this.setState({ itemList: JSON.parse(localStorage.getItem('cartList')) })
+        if (sessionStorage.getItem('cartList') !== 0) {
+            this.setState({ itemList: JSON.parse(sessionStorage.getItem('cartList')) })
         }
     }
 
@@ -24,7 +24,7 @@ export class Cart extends React.Component {
                 list.splice(i, 1)
             }
         }
-        localStorage.setItem('cartList', JSON.stringify(list));
+        sessionStorage.setItem('cartList', JSON.stringify(list));
         this.setState({ itemList: list })
     }
 
@@ -41,7 +41,7 @@ export class Cart extends React.Component {
 	}
 
     render() {
-        if (localStorage.getItem('cartList') === 0 || this.state.itemList.length === 0) {
+        if (!sessionStorage.getItem('cartList') || this.state.itemList.length === 0) {
             return (
                 <div id='emptyCart'>
                     <h2 className='cartTitle'>Cart</h2>
