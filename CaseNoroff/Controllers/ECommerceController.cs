@@ -29,14 +29,14 @@ namespace CaseNoroff.Controllers
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
             return _db.Customers.FirstOrDefault(c => c.UserId == userId);
         }
 
         //Add new customer, update if already exists. Should be used in profilpage, or new order if logged in
         [HttpPost]
-        public Customer Customer([FromBody] Customer customer)
+        public ActionResult<Customer> Customer([FromBody] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -54,38 +54,38 @@ namespace CaseNoroff.Controllers
                         _db.Update(customer);
                         _db.SaveChanges();
                         return customer;
-                    }                 
-
+                    }
+                    _db.Customers.Add(customer);
+                    _db.SaveChanges();
+                    return customer;
                 }
-                _db.Customers.Add(customer);
-                _db.SaveChanges();
+                return Unauthorized();
             }
-
-            return customer;
+            return NotFound();
         }
 
-        public ActionResult<List<Order>> OrderAndOrderItemAndProduct()
+        public ActionResult<List<Order>> Order()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
             return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
 
-        public ActionResult<Order> Order(int id)
+        public ActionResult<Order> Order(int order_id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
 
             if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
+            return _db.Orders.Where(o => o.OrderId == order_id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == order_id);
         }
 
         public List<Product> Product()
@@ -93,8 +93,9 @@ namespace CaseNoroff.Controllers
             return _db.Products.Include(s => s.Size).ToList();
         }
 
+        //CustomerAndOrderAndDeliveryAdressAndOrderItem
         [HttpPost]
-        public CustomerOrderViewModel CustomerAndOrderAndDeliveryAdressAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             if (ModelState.IsValid)
             {
