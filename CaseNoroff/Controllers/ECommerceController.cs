@@ -64,7 +64,7 @@ namespace CaseNoroff.Controllers
             return customer;
         }
 
-        public ActionResult<List<Order>> OrderAndOrderItemAndProduct()
+        public ActionResult<List<Order>> Order()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
@@ -76,7 +76,7 @@ namespace CaseNoroff.Controllers
             return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
 
-        public ActionResult<Order> Order(int id)
+        public ActionResult<Order> Order(int order_id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
@@ -85,7 +85,7 @@ namespace CaseNoroff.Controllers
             {
                 return NotFound();
             }
-            return _db.Orders.Where(o => o.OrderId == id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == id);
+            return _db.Orders.Where(o => o.OrderId == order_id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == order_id);
         }
 
         public List<Product> Product()
@@ -93,8 +93,9 @@ namespace CaseNoroff.Controllers
             return _db.Products.Include(s => s.Size).ToList();
         }
 
+        //CustomerAndOrderAndDeliveryAdressAndOrderItem
         [HttpPost]
-        public CustomerOrderViewModel CustomerAndOrderAndDeliveryAdressAndOrderItem([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             if (ModelState.IsValid)
             {
