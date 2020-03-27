@@ -52,7 +52,8 @@
             <div id="sidebar-menu" class="dropdown-menu show" x-placement="bottom-start" style="display:none; position:absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                 <h6 class="dropdown-header" asp-area="Identity">@User.Identity.Name</h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-page="/Account/Manage/Index">Profile</a>
+                <a class="dropdown-item" asp-page="/Account/Manage/Index">Login Information</a>
+                <a class="dropdown-item" href="/Profile">Profile</a>
                 <a class="dropdown-item" href="/orderHistory">Order History</a>
                 <div class="dropdown-divider"></div>
                 <form class="text-dark dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">

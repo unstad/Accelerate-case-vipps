@@ -81,7 +81,8 @@ export class LoginMenu extends Component {
                     <DropdownMenu className="drooopdownMenu">
                         <DropdownItem header> {userName} </DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem tag={Link} className="text-dark" to={profilePath}>Profile</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to={profilePath}>Login Information</DropdownItem>
+                        <DropdownItem tag={Link} className="text-dark" to='/Profile'>Profile</DropdownItem>
                         <DropdownItem tag={Link} className="text-dark" to='/orderHistory'>Order History</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem tag={Link} className="text-dark" to={logoutPath}>Logout</DropdownItem>
