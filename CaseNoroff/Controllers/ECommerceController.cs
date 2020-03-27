@@ -73,6 +73,7 @@ namespace CaseNoroff.Controllers
             return NotFound();
         }
         [HttpGet]
+        [Route("ECommerce/Order")]
         public ActionResult<List<Order>> Order()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
@@ -105,6 +106,7 @@ namespace CaseNoroff.Controllers
 
         //CustomerAndOrderAndDeliveryAdressAndOrderItem
         [HttpPost]
+        [Route("ECommerce/Order")]
         public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             if (ModelState.IsValid)
