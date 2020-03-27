@@ -36,7 +36,7 @@ namespace CaseNoroff.Controllers
 
         //Add new customer, update if already exists. Should be used in profilpage, or new order if logged in
         [HttpPost]
-        public Customer Customer([FromBody] Customer customer)
+        public ActionResult<Customer> Customer([FromBody] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -54,14 +54,13 @@ namespace CaseNoroff.Controllers
                         _db.Update(customer);
                         _db.SaveChanges();
                         return customer;
-                    }                 
-
+                    }
+                    _db.Customers.Add(customer);
+                    _db.SaveChanges();
+                    return customer;
                 }
-                _db.Customers.Add(customer);
-                _db.SaveChanges();
             }
-
-            return customer;
+            return NotFound();
         }
 
         public ActionResult<List<Order>> Order()
