@@ -314,7 +314,6 @@ export class Profile extends React.Component {
 
 	async postCustomer() {
 		const token = await authService.getAccessToken();
-
 		let fields = this.state.fields;
 
 		let head = !token ? {} : {
@@ -340,11 +339,9 @@ export class Profile extends React.Component {
 			const response = await fetch('ecommerce/customer', requestOptions).then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
-					console.log("hei")
 				}
 				return response.blob();
 			});
-			console.log(fields);
 			this.props.history.push("/ProfileConfirmation");
 		}
 
