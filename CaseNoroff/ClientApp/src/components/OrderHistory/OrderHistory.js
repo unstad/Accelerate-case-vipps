@@ -21,15 +21,12 @@ export class OrderHistory extends React.Component {
        
         try {
             const token = await authService.getAccessToken();
-            console.log('Token:' + token)
-            const response = await fetch('https://localhost:44364/ECommerce/OrderAndOrderItemAndProduct', {
+            const response = await fetch('https://localhost:44364/ECommerce/order', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             }).then(resp => resp.json());
             let list = [...this.state.orders]
             list.push(response)
             this.setState({ orders: list[0] })
-            console.log(list)
-            console.log(list[0])
         } catch (e) {
             console.error(e);
         }
