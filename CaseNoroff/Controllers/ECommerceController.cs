@@ -85,6 +85,7 @@ namespace CaseNoroff.Controllers
             return _db.Orders.Where(o => o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).ToList();
         }
 
+        [Route("ECommerce/Order/{order_id?}")]
         public ActionResult<Order> Order(int order_id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
