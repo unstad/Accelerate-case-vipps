@@ -181,6 +181,13 @@ export class Profile extends React.Component {
 			<div>
 				<Form onSubmit={this.handleSubmit}>
 					<FormGroup>
+						<Label for="email">Email address</Label>
+						<Input type="email" name="email" id="email" maxLength="50"
+							onChange={this.handleChange.bind(this, "email")}
+							value={this.state.fields.email || ""} required disabled />
+						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+					</FormGroup>
+					<FormGroup>
 						<Label for="firstName">First name</Label>
 						<Input type="text" name="firstName" id="firstName" maxLength="25"
 							onChange={this.handleChange.bind(this, "firstName")}
@@ -193,13 +200,6 @@ export class Profile extends React.Component {
 							onChange={this.handleChange.bind(this, "lastName")}
 							value={this.state.fields.lastName ||""} required />
 						<span style={{ color: "red" }}>{this.state.errors["lastName"]}</span>
-					</FormGroup>
-					<FormGroup>
-						<Label for="email">Email address</Label>
-						<Input type="email" name="email" id="email" maxLength="50"
-							onChange={this.handleChange.bind(this, "email")}
-							value={this.state.fields.email || ""} required />
-						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>

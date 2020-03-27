@@ -27,8 +27,8 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/cart' component={Cart} />
         <Route path='/order' component={Orderdetails} />
-        <Route exact path='/Profile' component={Profile} />
-        <Route exact path='/ProfileConfirmation' component={ProfileConfirmation} />
+        <AuthorizeRoute exact path='/Profile' component={Profile} />
+        <AuthorizeRoute exact path='/ProfileConfirmation' component={ProfileConfirmation} />
         <AuthorizeRoute path='/orderHistory/order/:orderID' component={OrderHOrder} />
         <AuthorizeRoute exact path='/orderHistory' component={OrderHistory} />
         
