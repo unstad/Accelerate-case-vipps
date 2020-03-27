@@ -35,9 +35,9 @@ namespace CaseNoroff.Controllers
 
             if(customer == null)
             {
-                var email = _db.Users.First(u => u.Id == userId);
+                var userInfo = _db.Users.First(u => u.Id == userId);
                 customer = new Customer();
-                customer.Email = email.ToString();
+                customer.Email = userInfo.Email;
             }
 
             return customer;
