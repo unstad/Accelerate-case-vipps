@@ -10,7 +10,7 @@ export class Shop extends React.Component {
         this.state = {
             itemList: [],
             filteredItemList: [],
-            addedItems: JSON.parse(localStorage.getItem('cartList')),
+            addedItems: JSON.parse(sessionStorage.getItem('cartList')),
             addModal: false,
 
             isAuthenticated: false,
@@ -20,7 +20,7 @@ export class Shop extends React.Component {
 
     async componentDidMount() {
         this.setState({itemList: [], filteredItemList: [] })
-        const api_url = `https://localhost:44364/ECommerce/Product`
+        const api_url = `https://localhost:5001/ECommerce/Product`
         try {
             const response = await fetch(api_url).then(resp => resp.json());
             let list = [...this.state.itemList];
@@ -52,12 +52,12 @@ export class Shop extends React.Component {
 
     addItem = (item, event) => {
         let list = []
-        if (localStorage.getItem('cartList') != null) {
+        if (sessionStorage.getItem('cartList') != null) {
             list = [...this.state.addedItems];
         }
         list.push(item);
         this.setState({ addedItems: list });
-        localStorage.setItem('cartList', JSON.stringify(list));
+        sessionStorage.setItem('cartList', JSON.stringify(list));
     }
 
     render() {

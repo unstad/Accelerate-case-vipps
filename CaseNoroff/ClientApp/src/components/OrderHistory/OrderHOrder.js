@@ -56,6 +56,7 @@ export class OrderHOrder extends React.Component {
                         <div className = 'ohItemText'>
                             <h4>{item.product.productName}</h4>
                             <p><strong className='conItemText'>Productnumber: </strong>{item.productId} </p>
+                            <p><strong className='conItemText'>Description: </strong>{item.product.description}</p>
                             <p><strong className='conItemText'>Quantity: </strong>{item.productQuantity}</p>
                             <p><strong className='conItemText'>Price: </strong>NOK {item.totalPrice},-</p>
                         </div>

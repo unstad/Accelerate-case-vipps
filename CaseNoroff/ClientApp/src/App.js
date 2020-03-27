@@ -26,9 +26,9 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/cart' component={Cart} />
         <Route path='/order' component={Orderdetails} />
-        <Route path='/orderHistory/order/:orderID' component={OrderHOrder} />
-        <Route exact path='/orderHistory' component={OrderHistory} />
         <Route exact path='/Profile' component={Profile} />
+        <AuthorizeRoute path='/orderHistory/order/:orderID' component={OrderHOrder} />
+        <AuthorizeRoute exact path='/orderHistory' component={OrderHistory} />
         
         <AuthorizeRoute path='/fetch-data' component={FetchData} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
