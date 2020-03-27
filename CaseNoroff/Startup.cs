@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using CaseNoroff.Data;
 using CaseNoroff.Models;
-using CaseNoroff.Services;
+//using CaseNoroff.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,7 +46,7 @@ namespace CaseNoroff
 				options.Password.RequiredLength = 8;
 				options.Password.RequiredUniqueChars = 0;
 
-				options.SignIn.RequireConfirmedEmail = true;
+				//options.SignIn.RequireConfirmedEmail = true;
 
 				// Lockout settings.
 				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -77,8 +77,8 @@ namespace CaseNoroff
 			services.AddControllersWithViews().AddNewtonsoftJson(options =>
 																 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 																 );
-			services.AddTransient<IEmailSender, EmailSender>();
-			services.Configure<AuthMessageSenderOptions>(Configuration);
+			//services.AddTransient<IEmailSender, EmailSender>();
+			//services.Configure<AuthMessageSenderOptions>(Configuration);
 	
 			services.AddRazorPages();
 
