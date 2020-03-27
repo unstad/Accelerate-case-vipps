@@ -28,11 +28,8 @@ export class OrderHOrder extends React.Component {
             const response = await fetch(`https://localhost:44364/ECommerce/Order/${this.state.orderID}`, {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             }).then(resp => resp.json());
-            let list = []
-            list.push(response)
-            this.setState({ order: list[0] })
-            console.log(list)
-            console.log(list[0])
+            let list = response
+            this.setState({ order: list })
         } catch (e) {
             console.error(e);
         }
@@ -52,7 +49,7 @@ export class OrderHOrder extends React.Component {
             const thisOrder = this.state.order;
             const items = thisOrder.orderItems.map(item => {
                 return (
-                    <li className='ohItemLI'>
+                    <li className='ohItemLI' key={item.productId}>
                         <div className = 'ohItemText'>
                             <h4>{item.product.productName}</h4>
                             <p><strong className='conItemText'>Productnumber: </strong>{item.productId} </p>

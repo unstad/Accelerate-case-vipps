@@ -17,7 +17,7 @@ export default class OrderHistoryItem extends React.Component {
         }
         const images = this.props.order.orderItems.map(item => {
             return (
-                <div className='orderHistoryImgSet'>
+                <div className='orderHistoryImgSet' key={item.product.productId}>
                     <img className='historyImg' src={item.product.imgURL} alt={item.product.productName} />
                     <p> X{item.productQuantity}</p>
                 </div>
