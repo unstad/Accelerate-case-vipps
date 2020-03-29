@@ -22,7 +22,7 @@ namespace CaseNoroff.Services
 
         public Task Execute(string apiKey, string subject, string message, string email)
         {
-            var client = new SendGridClient("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");
+            var client = new SendGridClient();
             var msg = new SendGridMessage()
             {
                 From = new EmailAddress("noroffvipps@gmail.com", Options.SendGridUser),

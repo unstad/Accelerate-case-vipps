@@ -9,7 +9,7 @@
 \usepackage[top=1in]{geometry}
 \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
 
-\title{Netbutikk documentation}
+\title{Nettbutikk documentation}
 \author{Kristian Nilsen, Jon Erik Ullvang, Vinh Laph Nguyen,\\ Katharina Unstad, Espen Sotnakk}
 
 \begin{document}
@@ -64,10 +64,25 @@ The login page is shown in Figure~\ref{fig:login}. The user has two options to l
   \label{fig:login}
 \end{figure}
 \section*{Order history}
+Order history is shown in Figure~\ref{fig:history}. This is where orders placed by the user is shown. Clicking on an order shows additional information for that order as shown in Figure~\ref{fig:historydetails}.
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.3]{history}
+  \includegraphics[scale=0.3]{orderhistory}
   \caption{Order history page.}
   \label{fig:history}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.3]{orderhistorydetails}
+  \caption{Order details.}
+  \label{fig:historydetails}
+\end{figure}
+\section*{Profile page}
+The profile page is shown in Figure~\ref{fig:profile}. On this page the user can write in profile details. This information will be used in the order details page when the customers proceeds from the cart. The user is able to change any information for the order on the page.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.2]{profile}
+  \caption{Order details.}
+  \label{fig:profile}
 \end{figure}
 \end{document}
