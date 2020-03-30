@@ -32,6 +32,7 @@ export class OrderHOrder extends React.Component {
             this.setState({ order: list })
         } catch (e) {
             console.error(e);
+            this.props.history.push("/Error404");
         }
 
     }
