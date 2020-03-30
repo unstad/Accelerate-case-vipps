@@ -25,9 +25,11 @@ export class Orderdetails extends React.Component {
 
 	sumPrice = () => {
 		let sum = 0;
-		this.state.itemList.map(item => {
-			sum += item.price
-		})
+		if (sessionStorage.getItem('cartList')) {
+			this.state.itemList.map(item => {
+				sum += item.price
+			})
+		}
 		return sum;
 		this.state.totalprice = sum;
 	}
@@ -38,7 +40,6 @@ export class Orderdetails extends React.Component {
 			body: JSON.stringify(token),
 		}).then(response => {
 			response.json().then(data => {
-				console.log(data);
 			});
 		});
 	}
@@ -64,7 +65,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["firstName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
 					formIsValid = false;
 					errors["firstName"] = "Only letters.";
 				}
@@ -81,7 +82,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["lastName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
 					formIsValid = false;
 					errors["lastName"] = "Only letters.";
 				}
@@ -205,6 +206,13 @@ export class Orderdetails extends React.Component {
 			<div>
 				<Form onSubmit={this.handleSubmit}>
 					<FormGroup>
+						<Label for="email">Email address</Label>
+						<Input type="email" name="email" id="email" maxLength="50"
+							onChange={this.handleChange.bind(this, "email")}
+							value={this.state.fields.email || ""} required disabled/>
+						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+					</FormGroup>
+					<FormGroup>
 						<Label for="firstName">First name</Label>
 						<Input type="text" name="firstName" id="firstName" maxLength="25"
 							   onChange={this.handleChange.bind(this, "firstName")}
@@ -217,13 +225,6 @@ export class Orderdetails extends React.Component {
 							   onChange={this.handleChange.bind(this, "lastName")}
 							   value={this.state.fields.lastName  || ""} required/>
 						<span style={{color: "red"}}>{this.state.errors["lastName"]}</span>
-					</FormGroup>
-					<FormGroup>
-						<Label for="email">Email address</Label>
-						<Input type="email" name="email" id="email" maxLength="50"
-							   onChange={this.handleChange.bind(this, "email")}
-							   value={this.state.fields.email  || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["email"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>
@@ -277,9 +278,7 @@ export class Orderdetails extends React.Component {
 						opened={this.onOpened}
 						closed={this.onClosed}
 						>
-						<Button color="success" size="lg" block>
-							Pay {this.sumPrice()} NOK
-						</Button>
+						<Button color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
 					</StripeCheckout>
                 </Form>
             </div>
