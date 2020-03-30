@@ -8,6 +8,12 @@ using Stripe;
 
 namespace CaseNoroff.Controllers
 {
+    /* 
+     Stripe can be tested with standard card number, exp and cvc
+     card number: 4242 4242 4242
+     exp: anything thats not expired ex. 08/22
+     cvc: anything, atleast 3 digits.
+         */
     public class StripeController : Controller
     {
         [Route("pay")]
