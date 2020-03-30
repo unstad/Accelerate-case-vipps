@@ -20,16 +20,22 @@ export class Shop extends React.Component {
 
     async componentDidMount() {
         this.setState({itemList: [], filteredItemList: [] })
-        const api_url = `https://localhost:44364/ECommerce/Product`
+		let response = null;
+		let list = null;
         try {
-            const response = await fetch(api_url).then(resp => resp.json());
-            let list = [...this.state.itemList];
+            response = await fetch(`https://localhost:44364/ECommerce/Product`).then(resp => resp.json());
+            list = [...this.state.itemList];
             list.push(...response);
             this.setState({
                 itemList: list, filteredItemList: list
             });
         } catch (e) {
-            console.error(e);
+			response = await fetch(`https://localhost:5001/ECommerce/Product`).then(resp => resp.json());
+            list = [...this.state.itemList];
+            list.push(...response);
+            this.setState({
+                itemList: list, filteredItemList: list
+            });
         }
 
         this.populateState();

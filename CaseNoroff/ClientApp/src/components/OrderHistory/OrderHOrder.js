@@ -22,13 +22,20 @@ export class OrderHOrder extends React.Component {
         return total;
     }
     async populateOrder() {
-
+		let list = null;
+		let response = null;
         try {
             const token = await authService.getAccessToken();
-            const response = await fetch(`https://localhost:44364/ECommerce/Order/${this.state.orderID}`, {
-                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-            }).then(resp => resp.json());
-            let list = response
+			try {
+			 response = await fetch(`https://localhost:44364/ECommerce/Order/${this.state.orderID}`, {
+					headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+			 }).then(resp => resp.json());
+			} catch (e) {
+				response = await fetch(`https://localhost:5001/ECommerce/Order/${this.state.orderID}`, {
+					headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+				}).then(resp => resp.json());
+			}
+            list = response;
             this.setState({ order: list })
         } catch (e) {
             console.error(e);
