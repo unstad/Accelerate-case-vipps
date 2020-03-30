@@ -38,7 +38,6 @@ export class Orderdetails extends React.Component {
 			body: JSON.stringify(token),
 		}).then(response => {
 			response.json().then(data => {
-				console.log(data);
 			});
 		});
 	}
@@ -64,7 +63,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["firstName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["firstName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
 					formIsValid = false;
 					errors["firstName"] = "Only letters.";
 				}
@@ -81,7 +80,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["lastName"] !== "undefined") {
 			if (sessionStorage.getItem('firstName').length != 0) {
-				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["lastName"].match(/^[a-zA-ZÆØÅæøå]+[-{1}]?[\s{1}]?[a-zA-ZÆØÅæøå]?$/)) {
 					formIsValid = false;
 					errors["lastName"] = "Only letters.";
 				}
@@ -277,9 +276,7 @@ export class Orderdetails extends React.Component {
 						opened={this.onOpened}
 						closed={this.onClosed}
 						>
-						<Button color="success" size="lg" block>
-							Pay {this.sumPrice()} NOK
-						</Button>
+						<Button color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
 					</StripeCheckout>
                 </Form>
             </div>

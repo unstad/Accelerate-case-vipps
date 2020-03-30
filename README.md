@@ -5,10 +5,10 @@ Case for accelerated .NET fullstack course at Noroff winter 2020.
 * Jon Erik Ullvang
 * Katharina Tunold Unstad
 * Vinh Lap Nguyen
-* Espen Stotnakk
+* Espen Sotnakk
 # How to run the project
 1. Download the project
 2. Navigate to CaseNoroff file
-3.`dotnet run` 
+3. `dotnet run` 
 
 
