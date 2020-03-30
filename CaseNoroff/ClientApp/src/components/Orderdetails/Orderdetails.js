@@ -25,9 +25,11 @@ export class Orderdetails extends React.Component {
 
 	sumPrice = () => {
 		let sum = 0;
-		this.state.itemList.map(item => {
-			sum += item.price
-		})
+		if (sessionStorage.getItem('cartList')) {
+			this.state.itemList.map(item => {
+				sum += item.price
+			})
+		}
 		return sum;
 		this.state.totalprice = sum;
 	}
