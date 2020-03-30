@@ -107,11 +107,19 @@ namespace CaseNoroff.Controllers
         //CustomerAndOrderAndDeliveryAdressAndOrderItem
         [HttpPost]
         [Route("ECommerce/Order")]
-        public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel)
+        public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel, bool fromStripe = false, string userIdParam = null)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                string userId;
+                if (userIdParam != null || fromStripe == true)
+                {
+                    userId = userIdParam;
+                }
+                else
+                {
+                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                }
                 var userIdFromMail = _db.Users.FirstOrDefault(u => u.Email == customerOrderViewModel.Customer.Email);
                 if (customerOrderViewModel.Customer.UserId == null && userId != null)
                 {

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CaseNoroff.Data;
+using CaseNoroff.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+
+using System.Security.Claims;
+
 
 namespace CaseNoroff.Controllers
 {
@@ -16,6 +21,12 @@ namespace CaseNoroff.Controllers
          */
     public class StripeController : Controller
     {
+        private readonly ApplicationDbContext _db;
+        public StripeController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         [Route("pay")]
         public async Task<dynamic> Pay(Models.PaymentModel pm)
         {
@@ -43,7 +54,7 @@ namespace CaseNoroff.Controllers
 
         [Route("charge")]
         [HttpPost]
-        public ActionResult Charge(string stripeToken, int value, string stripeEmail)
+        public ActionResult Charge(string stripeToken, int value, string stripeEmail, [FromBody] CustomerOrderViewModel customerOrderViewModel)
         {
             // init chargeoptions
             var myCharge = new ChargeCreateOptions();
@@ -58,7 +69,10 @@ namespace CaseNoroff.Controllers
             var chargeService = new ChargeService();
             // execute charge with options set
             //Charge stripeCharge = chargeService.Create(myCharge);
-
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+            bool fromStripe = true;
+            //Post order
+            new ECommerceController(_db).Order(customerOrderViewModel, fromStripe, userId);
             // response to client
             return Ok("ok");
         }
