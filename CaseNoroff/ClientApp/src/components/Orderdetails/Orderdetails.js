@@ -1,25 +1,52 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import authService from '../api-authorization/AuthorizeService';
+import StripeCheckout from 'react-stripe-checkout';
+
 
 export class Orderdetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			fields: {},
-			errors: {}
+			errors: {},
+			itemList: [],
+			totalprice: String
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
 		this.getCustomerDetails();
+		if (sessionStorage.getItem('cartList') !== 0) {
+			this.setState({ itemList: JSON.parse(sessionStorage.getItem('cartList')) })
+		}
+	}
+
+	sumPrice = () => {
+		let sum = 0;
+		this.state.itemList.map(item => {
+			sum += item.price
+		})
+		return sum;
+		this.state.totalprice = sum;
+	}
+
+	onToken = (token) => {
+		fetch('/charge', {
+			method: 'POST',
+			body: JSON.stringify(token),
+		}).then(response => {
+			response.json().then(data => {
+				console.log(data);
+			});
+		});
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.handleValidation()) {
-			this.props.history.push('/counter'); //to payment page
+			this.props.history.push('/'); //to payment page
 		} else {
 			alert("Form has errors.");
 		}
@@ -233,7 +260,27 @@ export class Orderdetails extends React.Component {
                                value={this.state.fields.zipCode  || ""} required/>
                         <span style={{color: "red"}}>{this.state.errors["zipCode"]}</span>
                     </FormGroup>
-                    <Button type="submit" color="primary" size="lg" block onClick={this.handleSubmit}>Continue to payment</Button>
+					<StripeCheckout
+						name="The Vipps Store"
+						description="Checkout"
+						ComponentClass="div"
+						label="Pay"
+						panelLabel="Pay"
+						amount={this.sumPrice() *100}
+						currency="NOK"
+						stripeKey="pk_test_jiInoZhvOwcgMJjTyG0LGyTJ00RQ4kK30X"
+						locale="auto"
+						zipCode={false}
+						allowRememberMe={false}
+						email={this.state.fields.email}
+						token={this.onToken}
+						opened={this.onOpened}
+						closed={this.onClosed}
+						>
+						<Button color="success" size="lg" block>
+							Pay {this.sumPrice()} NOK
+						</Button>
+					</StripeCheckout>
                 </Form>
             </div>
         )

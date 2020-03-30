@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Stripe;
 
 namespace CaseNoroff
 {
@@ -109,6 +110,7 @@ namespace CaseNoroff
 			app.UseSpaStaticFiles();
 
 			app.UseRouting();
+			StripeConfiguration.ApiKey = "sk_test_jT2ConbYV98t9Z9FpLQq5bQf00qI4SOXre";
 
 			app.UseAuthentication();
 			app.UseIdentityServer();
