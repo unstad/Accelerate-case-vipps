@@ -107,7 +107,7 @@ namespace CaseNoroff.Controllers
         //CustomerAndOrderAndDeliveryAdressAndOrderItem
         [HttpPost]
         [Route("ECommerce/Order")]
-        public CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel, bool fromStripe = false, string userIdParam = null)
+        internal CustomerOrderViewModel Order([FromBody] CustomerOrderViewModel customerOrderViewModel, bool fromStripe = false, string userIdParam = null)
         {
             if (ModelState.IsValid)
             {
