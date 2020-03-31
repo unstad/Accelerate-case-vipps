@@ -15,6 +15,7 @@ export class Orderdetails extends React.Component {
 			totalprice: String
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.getOrderitems = this.getOrderItems.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,7 +62,8 @@ export class Orderdetails extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.handleValidation()) {
-			this.props.history.push('/'); //to payment page
+			this.getOrderItems()
+			this.handlePay()
 		} else {
 			alert("Form has errors.");
 		}
@@ -239,6 +241,27 @@ export class Orderdetails extends React.Component {
 		}
 		return cnt;
 	}
+	
+	getOrderItems = () => {
+		const orderList = JSON.parse(sessionStorage.getItem('cartList'));
+		let orders = [];
+		
+		orderList.forEach(function (order_i, index_i) {
+			var order = {
+				productId: order_i.productId,
+				productQuantity: 0,
+			}
+
+			orderList.forEach(function (order_j, index_j) {
+				if (order_i.productName === order_j.productName) {
+					order.productQuantity++;
+				}
+			});
+			orders.push(order)
+		});
+		console.log(orders)
+		sessionStorage.setItem('orders', JSON.stringify(orders));
+	}
 
 	async handlePay(){
 		const token = await authService.getAccessToken();
@@ -271,7 +294,7 @@ export class Orderdetails extends React.Component {
 					"postalCode": sessionStorage.getItem('zipCode'),
 					"country": sessionStorage.getItem('country'),
 				},
-				"orderItems": this.getOrderInfo
+				"orderItems": JSON.parse(sessionStorage.getItem('orders'))
 			})
 		}
 		if (token) {
@@ -356,7 +379,7 @@ export class Orderdetails extends React.Component {
 						opened={this.onOpened}
 						closed={this.onClosed}
 					>
-						<Button onClick={this.handlePay} color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
+						<Button onClick={this.handleSubmit} color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
 					</StripeCheckout>
 				</Form>
 			</div>
