@@ -8,6 +8,7 @@ export class Orderdetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isAuthenticated: false,
 			fields: {},
 			errors: {},
 			itemList: [],
@@ -17,10 +18,23 @@ export class Orderdetails extends React.Component {
 	}
 
 	componentDidMount() {
+		this._subscription = authService.subscribe(() => this.populateState());
+		this.populateState();
 		this.getCustomerDetails();
 		if (sessionStorage.getItem('cartList') !== 0) {
 			this.setState({ itemList: JSON.parse(sessionStorage.getItem('cartList')) })
 		}
+	}
+
+	componentWillUnmount() {
+		authService.unsubscribe(this._subscription);
+	}
+
+	async populateState() {
+		const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+		this.setState({
+			isAuthenticated,
+		});
 	}
 
 	sumPrice = () => {
@@ -202,6 +216,14 @@ export class Orderdetails extends React.Component {
 	}
 
 	render() {
+		const { isAuthenticated } = this.state;
+		if (!isAuthenticated) return this.anonymousView();
+		else if (isAuthenticated) return this.authenticatedView();
+	}
+
+
+	authenticatedView() {
+		console.log("logged in");
 		return (
 			<div>
 				<Form onSubmit={this.handleSubmit}>
@@ -209,65 +231,65 @@ export class Orderdetails extends React.Component {
 						<Label for="email">Email address</Label>
 						<Input type="email" name="email" id="email" maxLength="50"
 							onChange={this.handleChange.bind(this, "email")}
-							value={this.state.fields.email || ""} required disabled/>
+							value={this.state.fields.email || ""} required disabled />
 						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="firstName">First name</Label>
 						<Input type="text" name="firstName" id="firstName" maxLength="25"
-							   onChange={this.handleChange.bind(this, "firstName")}
-							   value={this.state.fields.firstName || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["firstName"]}</span>
+							onChange={this.handleChange.bind(this, "firstName")}
+							value={this.state.fields.firstName || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["firstName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="lastName">Last name</Label>
 						<Input type="text" name="lastName" id="lastName" maxLength="25"
-							   onChange={this.handleChange.bind(this, "lastName")}
-							   value={this.state.fields.lastName  || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["lastName"]}</span>
+							onChange={this.handleChange.bind(this, "lastName")}
+							value={this.state.fields.lastName || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["lastName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>
 						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20"
-							   onChange={this.handleChange.bind(this, "phoneNumber")}
-							   value={this.state.fields.phoneNumber  || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["phoneNumber"]}</span>
+							onChange={this.handleChange.bind(this, "phoneNumber")}
+							value={this.state.fields.phoneNumber || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["phoneNumber"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="address">Address</Label>
 						<Input type="text" name="address" id="address" maxLength="50"
-							   onChange={this.handleChange.bind(this, "address")}
-							   value={this.state.fields.address  || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["address"]}</span>
+							onChange={this.handleChange.bind(this, "address")}
+							value={this.state.fields.address || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["address"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="country">Country</Label>
 						<Input type="text" name="country" id="country" maxLength="50"
-							   onChange={this.handleChange.bind(this, "country")}
-							   value={this.state.fields.country  || ""} required/>
-						<span style={{color: "red"}}>{this.state.errors["country"]}</span>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="city">City</Label>
-                        <Input type="text" name="city" id="city" maxLength="50"
-                               onChange={this.handleChange.bind(this, "city")}
-                               value={this.state.fields.city  || ""} required/>
-                        <span style={{color: "red"}}>{this.state.errors["city"]}</span>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="zipCode">Zip code</Label>
-                        <Input type="text" name="zipCode" id="zipCode" maxLength="50"
-                               onChange={this.handleChange.bind(this, "zipCode")}
-                               value={this.state.fields.zipCode  || ""} required/>
-                        <span style={{color: "red"}}>{this.state.errors["zipCode"]}</span>
-                    </FormGroup>
+							onChange={this.handleChange.bind(this, "country")}
+							value={this.state.fields.country || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["country"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="city">City</Label>
+						<Input type="text" name="city" id="city" maxLength="50"
+							onChange={this.handleChange.bind(this, "city")}
+							value={this.state.fields.city || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["city"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="zipCode">Zip code</Label>
+						<Input type="text" name="zipCode" id="zipCode" maxLength="50"
+							onChange={this.handleChange.bind(this, "zipCode")}
+							value={this.state.fields.zipCode || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["zipCode"]}</span>
+					</FormGroup>
 					<StripeCheckout
 						name="The Vipps Store"
 						description="Checkout"
 						ComponentClass="div"
 						label="Pay"
 						panelLabel="Pay"
-						amount={this.sumPrice() *100}
+						amount={this.sumPrice() * 100}
 						currency="NOK"
 						stripeKey="pk_test_jiInoZhvOwcgMJjTyG0LGyTJ00RQ4kK30X"
 						locale="auto"
@@ -277,13 +299,97 @@ export class Orderdetails extends React.Component {
 						token={this.onToken}
 						opened={this.onOpened}
 						closed={this.onClosed}
-						>
+					>
 						<Button color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
 					</StripeCheckout>
-                </Form>
-            </div>
-        )
-    }
+				</Form>
+			</div>
+		)
+	}
+	anonymousView() {
+		console.log("Not logged in");
+		return (
+			<div>
+				<Form onSubmit={this.handleSubmit}>
+					<FormGroup>
+						<Label for="email">Email address</Label>
+						<Input type="email" name="email" id="email" maxLength="50"
+							onChange={this.handleChange.bind(this, "email")}
+							value={this.state.fields.email || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="firstName">First name</Label>
+						<Input type="text" name="firstName" id="firstName" maxLength="25"
+							onChange={this.handleChange.bind(this, "firstName")}
+							value={this.state.fields.firstName || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["firstName"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="lastName">Last name</Label>
+						<Input type="text" name="lastName" id="lastName" maxLength="25"
+							onChange={this.handleChange.bind(this, "lastName")}
+							value={this.state.fields.lastName || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["lastName"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="phoneNumber">Phone number</Label>
+						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20"
+							onChange={this.handleChange.bind(this, "phoneNumber")}
+							value={this.state.fields.phoneNumber || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["phoneNumber"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="address">Address</Label>
+						<Input type="text" name="address" id="address" maxLength="50"
+							onChange={this.handleChange.bind(this, "address")}
+							value={this.state.fields.address || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["address"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="country">Country</Label>
+						<Input type="text" name="country" id="country" maxLength="50"
+							onChange={this.handleChange.bind(this, "country")}
+							value={this.state.fields.country || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["country"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="city">City</Label>
+						<Input type="text" name="city" id="city" maxLength="50"
+							onChange={this.handleChange.bind(this, "city")}
+							value={this.state.fields.city || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["city"]}</span>
+					</FormGroup>
+					<FormGroup>
+						<Label for="zipCode">Zip code</Label>
+						<Input type="text" name="zipCode" id="zipCode" maxLength="50"
+							onChange={this.handleChange.bind(this, "zipCode")}
+							value={this.state.fields.zipCode || ""} required />
+						<span style={{ color: "red" }}>{this.state.errors["zipCode"]}</span>
+					</FormGroup>
+					<StripeCheckout
+						name="The Vipps Store"
+						description="Checkout"
+						ComponentClass="div"
+						label="Pay"
+						panelLabel="Pay"
+						amount={this.sumPrice() * 100}
+						currency="NOK"
+						stripeKey="pk_test_jiInoZhvOwcgMJjTyG0LGyTJ00RQ4kK30X"
+						locale="auto"
+						zipCode={false}
+						allowRememberMe={false}
+						email={this.state.fields.email}
+						token={this.onToken}
+						opened={this.onOpened}
+						closed={this.onClosed}
+					>
+						<Button color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
+					</StripeCheckout>
+				</Form>
+			</div>
+		)
+	}
 
     async getCustomerDetails() {
         const token = await authService.getAccessToken();
