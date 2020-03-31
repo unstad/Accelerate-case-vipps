@@ -49,21 +49,11 @@ export class Orderdetails extends React.Component {
 		this.state.totalprice = sum;
 	}
 
-	onToken = (token) => {
-		fetch('/charge', {
-			method: 'POST',
-			body: JSON.stringify(token),
-		}).then(response => {
-			response.json().then(data => {
-			});
-		});
-	}
-
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.handleValidation()) {
 			this.getOrderItems()
-			this.handlePay()
+			//this.handlePay()
 		} else {
 			alert("Form has errors.");
 		}
@@ -241,13 +231,12 @@ export class Orderdetails extends React.Component {
 		}
 		return cnt;
 	}
-	
+
 	getOrderItems = () => {
 		const orderList = JSON.parse(sessionStorage.getItem('cartList'));
 		let orders = [];
 
-		console.log(orderList)
-		
+
 		orderList.forEach(function (order_i, index_i) {
 			if (orders.some(o => o.productId === order_i.productId)) {
 				return;
@@ -267,9 +256,8 @@ export class Orderdetails extends React.Component {
 		sessionStorage.setItem('orders', JSON.stringify(orders));
 	}
 
-	async handlePay(){
-		const token = await authService.getAccessToken();
-		console.log("Paid")
+	onToken = (token) => {
+		const authToken = await authService.getAccessToken();
 		let head = !token ? {} : {
 			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
@@ -298,17 +286,18 @@ export class Orderdetails extends React.Component {
 					"postalCode": sessionStorage.getItem('zipCode'),
 					"country": sessionStorage.getItem('country'),
 				},
-				"orderItems": JSON.parse(sessionStorage.getItem('orders'))
+				"orderItems": JSON.parse(sessionStorage.getItem('orders')),
+				JSON.stringify(token)
 			})
 		}
-		if (token) {
-			const response = await fetch('ecommerce/order', request).then((response) => {
+		if (authToken) {
+			const response = await fetch('/charge', request).then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
+				
 				return response.blob();
 			});
-			this.props.history.push("/ProfileConfirmation");
 		}
 	}
 
@@ -320,29 +309,29 @@ export class Orderdetails extends React.Component {
 					<FormGroup>
 						<Label for="firstName">First name</Label>
 						<Input type="text" name="firstName" id="firstName" maxLength="25"
-							onChange={this.handleChange.bind(this, "firstName")}
-							value={this.state.fields.firstName || ""} required />
+						onChange={this.handleChange.bind(this, "firstName")}
+						value={this.state.fields.firstName || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["firstName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="lastName">Last name</Label>
 						<Input type="text" name="lastName" id="lastName" maxLength="25"
-							onChange={this.handleChange.bind(this, "lastName")}
-							value={this.state.fields.lastName || ""} required />
+						onChange={this.handleChange.bind(this, "lastName")}
+						value={this.state.fields.lastName || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["lastName"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="phoneNumber">Phone number</Label>
 						<Input type="text" name="phoneNumber" id="phoneNumber" maxLength="20"
-							onChange={this.handleChange.bind(this, "phoneNumber")}
-							value={this.state.fields.phoneNumber || ""} required />
+						onChange={this.handleChange.bind(this, "phoneNumber")}
+						value={this.state.fields.phoneNumber || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["phoneNumber"]}</span>
 					</FormGroup>
 					<FormGroup>
 						<Label for="address">Address</Label>
 						<Input type="text" name="address" id="address" maxLength="50"
-							onChange={this.handleChange.bind(this, "address")}
-							value={this.state.fields.address || ""} required />
+						onChange={this.handleChange.bind(this, "address")}
+						value={this.state.fields.address || ""} required />
 						<span style={{ color: "red" }}>{this.state.errors["address"]}</span>
 					</FormGroup>
 					<FormGroup>
@@ -378,7 +367,7 @@ export class Orderdetails extends React.Component {
 						locale="auto"
 						zipCode={false}
 						allowRememberMe={false}
-						email={this.state.fields.email}		
+						email={this.state.fields.email}
 						token={this.onToken}
 						opened={this.onOpened}
 						closed={this.onClosed}
@@ -394,7 +383,7 @@ export class Orderdetails extends React.Component {
 		const { isAuthenticated } = this.state;
 		if (!isAuthenticated) return this.anonymousView();
 		else if (isAuthenticated) return this.authenticatedView();
-    }
+	}
 
 
 	authenticatedView() {
@@ -403,8 +392,8 @@ export class Orderdetails extends React.Component {
 				<FormGroup>
 					<Label for="email">Email address</Label>
 					<Input type="email" name="email" id="email" maxLength="50"
-						onChange={this.handleChange.bind(this, "email")}
-						value={this.state.fields.email || ""} required disabled />
+					onChange={this.handleChange.bind(this, "email")}
+					value={this.state.fields.email || ""} required disabled />
 					<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
 				</FormGroup>
 			</Fragment>
@@ -417,8 +406,8 @@ export class Orderdetails extends React.Component {
 				<FormGroup>
 					<Label for="email">Email address</Label>
 					<Input type="email" name="email" id="email" maxLength="50"
-						onChange={this.handleChange.bind(this, "email")}
-						value={this.state.fields.email || ""} required />
+					onChange={this.handleChange.bind(this, "email")}
+					value={this.state.fields.email || ""} required />
 					<span style={{ color: "red" }}>{this.state.errors["email"]}</span>
 				</FormGroup>
 			</Fragment>
@@ -481,11 +470,11 @@ export class Orderdetails extends React.Component {
 				} else {
 					sessionStorage.setItem('zipCode', '');
 				}
-				
+
 			} catch (e) {
 				console.log(e)
 			}
-			
+
 			let fields = this.state.fields;
 			fields['firstName'] = sessionStorage.getItem('firstName');
 			fields['lastName'] = sessionStorage.getItem('lastName');
