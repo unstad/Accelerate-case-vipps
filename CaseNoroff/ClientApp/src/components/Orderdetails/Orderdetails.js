@@ -257,12 +257,11 @@ export class Orderdetails extends React.Component {
 					"postalCode": sessionStorage.getItem('zipCode'),
 					"country": sessionStorage.getItem('country'),
 				},
-				"orderItems": { this.getOrderInfo }
+				"orderItems": this.getOrderInfo
 			})
 		}
 		if (token) {
-			console.log(fields);
-			const response = await fetch('ecommerce/order', requestOptions).then((response) => {
+			const response = await fetch('ecommerce/order', request).then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
