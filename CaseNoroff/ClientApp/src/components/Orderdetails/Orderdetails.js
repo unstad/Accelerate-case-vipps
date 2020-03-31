@@ -294,9 +294,10 @@ export class Orderdetails extends React.Component {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
-				
+				sessionStorage.clear('cartList')
 				return response.blob();
 			});
+			window.location.href = '/orderHistory'
 		}
 	}
 
