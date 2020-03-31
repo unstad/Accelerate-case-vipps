@@ -18,16 +18,21 @@ export class OrderHistory extends React.Component {
     }
 
     async populateOrderHistory() {
-       
+		const token = await authService.getAccessToken();
+		let response = null;
+		let list = null;
         try {
-            const token = await authService.getAccessToken();
-            const response = await fetch('https://localhost:44364/ECommerce/order', {
+            response = await fetch('https://localhost:44364/ECommerce/order', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             }).then(resp => resp.json());
-            let list = response
+            list = response
             this.setState({ orders: list})
         } catch (e) {
-            console.error(e);
+			const response = await fetch('https://localhost:5001/ECommerce/order', {
+                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+			}).then(resp => resp.json());
+			list = response
+			this.setState({ orders: list})
         }
 
     }
