@@ -245,21 +245,25 @@ export class Orderdetails extends React.Component {
 	getOrderItems = () => {
 		const orderList = JSON.parse(sessionStorage.getItem('cartList'));
 		let orders = [];
+
+		console.log(orderList)
 		
 		orderList.forEach(function (order_i, index_i) {
+			if (orders.some(o => o.productId === order_i.productId)) {
+				return;
+			}
 			var order = {
 				productId: order_i.productId,
 				productQuantity: 0,
 			}
 
 			orderList.forEach(function (order_j, index_j) {
-				if (order_i.productName === order_j.productName) {
+				if (order.productId === order_j.productId) {
 					order.productQuantity++;
 				}
 			});
 			orders.push(order)
 		});
-		console.log(orders)
 		sessionStorage.setItem('orders', JSON.stringify(orders));
 	}
 
