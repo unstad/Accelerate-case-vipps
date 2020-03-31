@@ -7,8 +7,8 @@ Case for accelerated .NET fullstack course at Noroff winter 2020.
 * Vinh Lap Nguyen
 * Espen Sotnakk
 # How to run the project
-1. Download the project
-2. Navigate to CaseNoroff/ClientApp file
+1. `git clone https://github.com/unstad/Accelerate-case-vipps`
+2. `cd Accelerate-case-vipps/CaseNoroff/ClientApp` 
 3. `npm install` to install dependencies
 4. `dotnet run` in CaseNoroff file to run the server
 
