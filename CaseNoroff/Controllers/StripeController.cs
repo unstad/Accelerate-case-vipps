@@ -54,7 +54,7 @@ namespace CaseNoroff.Controllers
 
         [Route("charge")]
         [HttpPost]
-        public ActionResult Charge(string stripeToken, int value, string stripeEmail, [FromBody] CustomerOrderViewModel customerOrderViewModel)
+        public ActionResult Charge(string stripeToken, int value, string stripeEmail, [FromBody] CustomerOrderViewModel customerOrderViewModel = null)
         {
             // init chargeoptions
             var myCharge = new ChargeCreateOptions();
