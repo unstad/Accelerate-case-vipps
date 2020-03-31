@@ -92,11 +92,13 @@ namespace CaseNoroff.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
             Customer customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
 
-            if (userId == null)
+            var order = _db.Orders.Where(o => o.OrderId == order_id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == order_id);
+
+            if (userId == null || order == null)
             {
                 return Unauthorized();
             }
-            return _db.Orders.Where(o => o.OrderId == order_id && o.CustomerId == customer.CustomerId).Include(da => da.DeliveryAddress).Include(oi => oi.OrderItems).ThenInclude(p => p.Product).SingleOrDefault(o => o.OrderId == order_id);
+            return order;
         }
 
         public List<Product> Product()
