@@ -151,9 +151,9 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["country"] !== "undefined") {
 			if (sessionStorage.getItem('country').length != 0) {
-				if (!fields["country"].match(/^[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["country"].match(/^[a-zA-ZÆØÅæøå]+[\s{1}]?[a-zA-ZÆØÅæøå]+?$/)) {
 					formIsValid = false;
-					errors["country"] = "Phone number is not valid.";
+					errors["country"] = "Country is not valid.";
 				}
 			} else {
 				formIsValid = false;
@@ -168,7 +168,7 @@ export class Orderdetails extends React.Component {
 
 		if (typeof fields["city"] !== "undefined") {
 			if (sessionStorage.getItem('city').length != 0) {
-				if (!fields["city"].match(/^[a-zA-ZÆØÅæøå]+$/)) {
+				if (!fields["city"].match(/^[a-zA-ZÆØÅæøå]+[\s{1}]?[a-zA-ZÆØÅæøå]+?$/)) {
 					formIsValid = false;
 					errors["city"] = "City is not valid.";
 				}
@@ -258,7 +258,6 @@ export class Orderdetails extends React.Component {
 
 	async onToken(token){
 		const authToken = await authService.getAccessToken();
-		console.log(authToken);
 		let head = !token ? {} : {
 			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
@@ -288,22 +287,18 @@ export class Orderdetails extends React.Component {
 					"country": sessionStorage.getItem('country'),
 				},
 				"orderItems": JSON.parse(sessionStorage.getItem('orders')),
-				
 			})
 		}
-		const response = await fetch('/charge', request).then((response) => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			sessionStorage.clear('cartList')
-			return response.blob();
-		});
-		if (authToken != null) {
+		if (authToken) {
+			const response = await fetch('/charge', request).then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				sessionStorage.clear('cartList')
+				return response.blob();
+			});
 			window.location.href = '/orderHistory'
-		} else {
-			window.location.href = '/'
 		}
-			
 	}
 
 	render() {
