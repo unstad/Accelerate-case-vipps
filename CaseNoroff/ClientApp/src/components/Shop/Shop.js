@@ -64,6 +64,7 @@ export class Shop extends React.Component {
         list.push(item);
         this.setState({ addedItems: list });
         sessionStorage.setItem('cartList', JSON.stringify(list));
+        console.log(sessionStorage.getItem('cartList'));
     }
 
     render() {

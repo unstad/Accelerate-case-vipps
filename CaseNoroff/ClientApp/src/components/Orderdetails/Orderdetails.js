@@ -53,6 +53,8 @@ export class Orderdetails extends React.Component {
 		}
 	}
 
+
+
 	handleValidation() {
 		let fields = this.state.fields;
 		let errors = {};
@@ -201,6 +203,75 @@ export class Orderdetails extends React.Component {
 		this.setState({fields})
 	}
 
+	getOrderInfo = () => {
+		const orderList = sessionStorage.getItem('cartList');
+		let list = []
+		const orderInfo = orderList.map(order => {
+			let info = [order.productId, this.getItemQuantity(order.productId)]
+			list.push(info);
+		})
+		return list;
+	}
+
+	getItemQuantity = (itemId) => {
+		const orderList = sessionStorage.getItem('cartList');
+
+		var current = null;
+		var cnt = 0;
+		for (var i = 0; i < orderList.length; i++) {
+			if (orderList[i].productId == itemId) {
+				cnt++;
+			}
+		}
+		return cnt;
+	}
+
+	async handlePay(){
+		const token = await authService.getAccessToken();
+		console.log("Paid")
+		let head = !token ? {} : {
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json'
+		}
+		const request = {
+			method: 'POST',
+			headers: head,
+			body: JSON.stringify({
+				"customer": {
+					"email": sessionStorage.getItem('email'),
+					"firstName": sessionStorage.getItem('firstName'),
+					"lastName": sessionStorage.getItem('lastName'),
+					"streetAddress": sessionStorage.getItem('address'),
+					"city": sessionStorage.getItem('city'),
+					"postalCode": sessionStorage.getItem('zipCode'),
+					"country": sessionStorage.getItem('country'),
+					"phone": sessionStorage.getItem('phoneNumber'),
+					"acceptCustomerPolicy": false,
+					"userId": null,
+					"createAccount": false
+				},
+				"order": {},
+				"deliveryAddress": {
+					"streetAddress": sessionStorage.getItem('address'),
+					"city": sessionStorage.getItem('city'),
+					"postalCode": sessionStorage.getItem('zipCode'),
+					"country": sessionStorage.getItem('country'),
+				},
+				"orderItems": { this.getOrderInfo }
+			})
+		}
+		if (token) {
+			console.log(fields);
+			const response = await fetch('ecommerce/order', requestOptions).then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.blob();
+			});
+			this.props.history.push("/ProfileConfirmation");
+		}
+	}
+
 	render() {
 		return (
 			<div>
@@ -273,12 +344,12 @@ export class Orderdetails extends React.Component {
 						locale="auto"
 						zipCode={false}
 						allowRememberMe={false}
-						email={this.state.fields.email}
+						email={this.state.fields.email}		
 						token={this.onToken}
 						opened={this.onOpened}
 						closed={this.onClosed}
 					>
-						<Button color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
+						<Button onClick={this.handlePay} color="success" size="lg" block>Pay {this.sumPrice()} NOK</Button>
 					</StripeCheckout>
 				</Form>
 			</div>
