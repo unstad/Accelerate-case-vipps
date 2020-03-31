@@ -258,6 +258,7 @@ export class Orderdetails extends React.Component {
 
 	async onToken(token){
 		const authToken = await authService.getAccessToken();
+		console.log(authToken);
 		let head = !token ? {} : {
 			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
@@ -287,18 +288,22 @@ export class Orderdetails extends React.Component {
 					"country": sessionStorage.getItem('country'),
 				},
 				"orderItems": JSON.parse(sessionStorage.getItem('orders')),
+				
 			})
 		}
-		if (authToken) {
-			const response = await fetch('/charge', request).then((response) => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				sessionStorage.clear('cartList')
-				return response.blob();
-			});
+		const response = await fetch('/charge', request).then((response) => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			sessionStorage.clear('cartList')
+			return response.blob();
+		});
+		if (authToken != null) {
 			window.location.href = '/orderHistory'
+		} else {
+			window.location.href = '/'
 		}
+			
 	}
 
 	render() {
