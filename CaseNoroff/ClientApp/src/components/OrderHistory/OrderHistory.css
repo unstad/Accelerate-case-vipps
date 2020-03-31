@@ -4,7 +4,7 @@
 
 #orderHistoryList{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 .orderHLoading {
     font-family: Andale Mono, monospace;
