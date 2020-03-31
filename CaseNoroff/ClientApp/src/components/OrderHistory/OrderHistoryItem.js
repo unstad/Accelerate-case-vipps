@@ -6,8 +6,6 @@ export default class OrderHistoryItem extends React.Component {
     constructor(props) {
         super(props);
     }
-
-
     render() {
         const order = this.props.order;
         const date = order.orderDate.substring(0, 10);
