@@ -256,7 +256,7 @@ export class Orderdetails extends React.Component {
 		sessionStorage.setItem('orders', JSON.stringify(orders));
 	}
 
-	onToken = (token) => {
+	async onToken(token){
 		const authToken = await authService.getAccessToken();
 		let head = !token ? {} : {
 			'Authorization': `Bearer ${token}`,
@@ -287,7 +287,6 @@ export class Orderdetails extends React.Component {
 					"country": sessionStorage.getItem('country'),
 				},
 				"orderItems": JSON.parse(sessionStorage.getItem('orders')),
-				JSON.stringify(token)
 			})
 		}
 		if (authToken) {
