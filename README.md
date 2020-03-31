@@ -8,7 +8,8 @@ Case for accelerated .NET fullstack course at Noroff winter 2020.
 * Espen Sotnakk
 # How to run the project
 1. Download the project
-2. Navigate to CaseNoroff file
-3. `dotnet run` 
+2. Navigate to CaseNoroff/ClientApp file
+3. `npm install` to install dependencies
+4. `dotnet run` in CaseNoroff file to run the server
 
 
