@@ -249,51 +249,5 @@ namespace CaseNoroff.Controllers
 
             return customerOrderViewModel;
         }
-
-
-
-
-        //public List<Order> Orders()
-        //{
-        //    return _db.Orders.ToList();
-        //}
-
-
-        //public List<Customer> CustomerAndOrderAndOrderItemAndProduct()
-        //{
-        //    return _db.Customers.Include(o => o.Orders).ThenInclude(oi => oi.OrderItems)
-        //        .ThenInclude(p => p.Product).ToList();
-        //}
-
-
-        //public List<Customer> Customers()
-        //{
-        //    return _db.Customers.ToList();
-        //}
-
-        //[HttpPost]
-        //public Order Order([FromBody] Order order)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        order.OrderDate = DateTime.Now;
-        //        _db.Orders.Add(order);
-        //        _db.SaveChanges();
-        //    }
-
-        //    return order;
-        //}
-
-        //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-        //Customer customer = null;
-        //if (userId != null)
-        //{
-        //    customer = _db.Customers.FirstOrDefault(c => c.UserId == userId);
-        //    customerOrderViewModel.Customer = customer; //Only to get the customer on return data, nothing is added
-        //    customerOrderViewModel.Order.CustomerId = customer.CustomerId;
-        //}
-        //else
-        //{
-        //}
     }
 }
