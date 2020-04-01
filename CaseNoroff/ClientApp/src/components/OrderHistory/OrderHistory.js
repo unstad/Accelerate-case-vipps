@@ -22,13 +22,13 @@ export class OrderHistory extends React.Component {
 		let response = null;
 		let list = null;
         try {
-            response = await fetch('https://localhost:44364/ECommerce/order', {
+            response = await fetch('https://localhost:62176/ECommerce/order', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             }).then(resp => resp.json());
             list = response
             this.setState({ orders: list})
         } catch (e) {
-			const response = await fetch('https://localhost:5001/ECommerce/order', {
+            const response = await fetch('https://localhost:62176/ECommerce/order', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
 			}).then(resp => resp.json());
 			list = response

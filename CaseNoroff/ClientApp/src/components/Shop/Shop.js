@@ -30,7 +30,7 @@ export class Shop extends React.Component {
                 itemList: list, filteredItemList: list
             });
         } catch (e) {
-			response = await fetch(`https://localhost:5001/ECommerce/Product`).then(resp => resp.json());
+            response = await fetch(`https://localhost:62176/ECommerce/Product`).then(resp => resp.json());
             list = [...this.state.itemList];
             list.push(...response);
             this.setState({
