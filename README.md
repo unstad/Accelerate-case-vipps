@@ -11,5 +11,5 @@ Case for accelerated .NET fullstack course at Noroff winter 2020.
 2. `cd Accelerate-case-vipps/CaseNoroff/ClientApp` 
 3. `npm install` to install dependencies
 4. `dotnet run` in CaseNoroff file to run the server
-
+5. Navigate to either `https://localhost:5001/` or `https://localhost:44346/`
 
