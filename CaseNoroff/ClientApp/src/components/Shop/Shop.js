@@ -23,7 +23,7 @@ export class Shop extends React.Component {
 		let response = null;
 		let list = null;
         try {
-            response = await fetch(`https://localhost:44364/ECommerce/Product`).then(resp => resp.json());
+            response = await fetch(`https://localhost:62176/ECommerce/Product`).then(resp => resp.json());
             list = [...this.state.itemList];
             list.push(...response);
             this.setState({
